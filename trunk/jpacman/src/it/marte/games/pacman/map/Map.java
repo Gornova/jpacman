@@ -4,6 +4,7 @@
 package it.marte.games.pacman.map;
 
 import it.marte.games.pacman.actors.Block;
+import it.marte.games.pacman.actors.Brain;
 import it.marte.games.pacman.actors.EatGem;
 import it.marte.games.pacman.actors.Gem;
 import it.marte.games.pacman.actors.Ghost;
@@ -11,6 +12,8 @@ import it.marte.games.pacman.actors.Player;
 import it.marte.games.pacman.base.Body;
 import it.marte.games.pacman.base.Entity;
 import it.marte.games.pacman.base.Level;
+import it.marte.games.pacman.brains.PinkGhostBrain;
+import it.marte.games.pacman.brains.RedGhostBrain;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -227,7 +230,21 @@ public class Map implements Entity, TileBasedMap {
 							blockSize);
 					Ghost ghost = null;
 					try {
-						ghost = new Ghost(this,rect);
+						String color = map.getTileProperty(tileID, "red", "false");
+						Brain b = null;
+						if (color.equals("true")){
+							Vector2f pos = new Vector2f();
+							pos.set(xAxis*32, yAxis*32);
+							b = new RedGhostBrain(this,pos);
+							ghost = new Ghost(this,rect,b,0);							
+						}
+						color = map.getTileProperty(tileID, "pink", "false");						
+						if (color.equals("true")){
+							Vector2f pos = new Vector2f();
+							pos.set(xAxis*32, yAxis*32);
+							b = new PinkGhostBrain(this,pos);
+							ghost = new Ghost(this,rect,b,2);
+						}
 					} catch (SlickException e) {
 						Log.error(e);
 					}
@@ -357,9 +374,10 @@ public class Map implements Entity, TileBasedMap {
 		path = pathfinder.findPath(dummyMover, sx, sy, ex, ey);
 		if (path != null) {
 			return path;
+		} else {
+			return null;
+			//throw new NullPointerException("cannot find a path");			
 		}
-		throw new NullPointerException("cannot find a path");
-		
 	}
 
 	public boolean blocked(PathFindingContext contex, int x, int y) {

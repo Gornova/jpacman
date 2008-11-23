@@ -4,6 +4,7 @@ import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -23,6 +24,9 @@ public class Menu extends BasicGameState {
 	
 	/** The menu options */
 	private String[] options = new String[] {"Start","Scoretable","Quit"};
+	
+	private Image logo;
+	
 	/** The index of the selected option */
 	private int selected;
 	
@@ -42,6 +46,7 @@ public class Menu extends BasicGameState {
 		fit = new FadeInTransition(Color.black);
 		try {
 			font = new AngelCodeFont("data/demo2.fnt","data/demo2_00.tga");
+			logo = new Image("data/logo.gif");
 		} catch (SlickException e1) {
 			Log.error("font non found "+e1.getMessage());
 			e1.printStackTrace();
@@ -51,7 +56,8 @@ public class Menu extends BasicGameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		g.setFont(font);
-		g.drawString("PacMan", 340, 50);
+		//g.drawString("PacMan", 340, 50);
+		g.drawImage(logo, 320, 50);
 		
 		for (int i=0;i<options.length;i++) {
 			g.drawString(options[i], 400 - (font.getWidth(options[i])/2), 200+(i*50));

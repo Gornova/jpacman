@@ -5,7 +5,6 @@ import it.marte.games.pacman.base.Collider;
 import it.marte.games.pacman.base.Entity;
 import it.marte.games.pacman.base.Level;
 import it.marte.games.pacman.brains.GoToBaseGhostBrain;
-import it.marte.games.pacman.brains.RedGhostBrain;
 import it.marte.games.pacman.brains.RunningGhostBrain;
 import it.marte.games.pacman.map.Map;
 import it.marte.games.pacman.util.SheetUtil;
@@ -43,15 +42,22 @@ public class Ghost extends Body implements it.marte.games.pacman.base.Actor {
 
 	private Map parent;
 
+	private Brain normalBrain;
+	
 	private boolean toRemove = false;	
+	
+	/** Row in SpriteSheet to consider for this ghost **/
+	private int rowAnim;
 	
 	public enum State{
 		NORMAL, WAIT, EATABLE, DEATH;
 	}
 	
-	public Ghost(Map parent, Shape shape) throws SlickException {
+	public Ghost(Map parent, Shape shape, Brain normalBrain, int rowAnim) throws SlickException {
 		this.shape = shape;
 		this.parent = parent;
+		this.normalBrain = normalBrain;
+		this.rowAnim = rowAnim;
 		init();
 	}
 
@@ -125,18 +131,14 @@ public class Ghost extends Body implements it.marte.games.pacman.base.Actor {
     	
 		public void enter() {
 			// load normal animations
-			right = SheetUtil.getAnimationFromSheet(sheet, 0, 0, 7);
-			left = SheetUtil.getAnimationFromSheet(sheet, 0, 0, 7);
-			up = SheetUtil.getAnimationFromSheet(sheet, 0, 0, 7);
-			down = SheetUtil.getAnimationFromSheet(sheet, 0, 0, 7);
+			right = SheetUtil.getAnimationFromSheet(sheet, rowAnim, 0, 7);
+			left = SheetUtil.getAnimationFromSheet(sheet, rowAnim, 0, 7);
+			up = SheetUtil.getAnimationFromSheet(sheet, rowAnim, 0, 7);
+			down = SheetUtil.getAnimationFromSheet(sheet, rowAnim, 0, 7);
 			
 			doNormalAnim();
 			
-			try {
-				brain = new RedGhostBrain(parent,getPosition());
-			} catch (SlickException e) {
-				Log.error(e);
-			}
+			brain = normalBrain;
 		}
 
 		public void onCollision(Entity obstacle) {
