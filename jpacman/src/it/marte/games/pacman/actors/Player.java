@@ -479,4 +479,11 @@ public class Player extends Body {
 		return lives;
 	}
 
+	/**
+	 * @return the lastDir
+	 */
+	public String getLastDir() {
+		return lastDir;
+	}
+
 }

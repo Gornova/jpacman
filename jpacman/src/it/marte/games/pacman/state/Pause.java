@@ -7,6 +7,7 @@ import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -26,6 +27,9 @@ public class Pause extends BasicGameState {
 	
 	/** The menu options */
 	private String[] options = new String[] {"Continue","Quit"};
+	
+	private Image logo;
+	
 	/** The index of the selected option */
 	private int selected;
 	
@@ -46,6 +50,7 @@ public class Pause extends BasicGameState {
 		fit = new FadeInTransition(Color.black);
 		try {
 			font = new AngelCodeFont("data/demo2.fnt","data/demo2_00.tga");
+			logo = new Image("data/logo.gif");
 		} catch (SlickException e1) {
 			Log.error("font non found "+e1.getMessage());
 			e1.printStackTrace();
@@ -56,7 +61,7 @@ public class Pause extends BasicGameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		g.setFont(font);
-		g.drawString("PacMan - Pause", 340, 20);
+		g.drawImage(logo, 320, 20);
 		
 		g.drawString("Score :"+ Score.getScore(), 200, 80);
 
