@@ -1,0 +1,7 @@
+Attenzione.
+
+Quando si aggiunge un nuovo elemento in mappa (tmx) con tiled, 
+va esportato poi il tileset nel file tsx.. altrimenti quando si va da java
+non trova nulla!
+
+ 
