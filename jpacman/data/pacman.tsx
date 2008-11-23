@@ -101,4 +101,9 @@
    <property name="ghost" value="true"/>
   </properties>
  </tile>
+ <tile id="28">
+  <properties>
+   <property name="base" value="true"/>
+  </properties>
+ </tile>
 </tileset>

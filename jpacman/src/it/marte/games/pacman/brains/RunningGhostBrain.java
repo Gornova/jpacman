@@ -1,5 +1,6 @@
-package it.marte.games.pacman.actors;
+package it.marte.games.pacman.brains;
 
+import it.marte.games.pacman.actors.Brain;
 import it.marte.games.pacman.map.Map;
 
 import org.newdawn.slick.Graphics;
@@ -11,23 +12,18 @@ import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.Path.Step;
 
 /**
- * Red Ghost
+ * Running Ghost
  * 
- * Red ghost (Oikake): Input is Pac-Man's location. 
- * He doesn't consider which direction Pac-Man is going. 
- * He attempts to reduce the distance between himself and Pac-Man. 
+ * Escape from player, go to corners!
  * 
  * @author AM
  * @project PacMan
  */
-public class RedGhostBrain implements Brain {
+public class RunningGhostBrain implements Brain {
 
 	/** Internal thinking delta **/
 	private int updateThinkingTime;
 	
-	/** Timer for rethinkin Path based on player position **/
-	private int updatePlayerPositionTime;
-
 	/** Current step index into path **/
 	private int currentStepIndex;
 	
@@ -49,7 +45,7 @@ public class RedGhostBrain implements Brain {
 	 * @param start
 	 * @throws SlickException 
 	 */
-	public RedGhostBrain(Map map, Vector2f start) throws SlickException{
+	public RunningGhostBrain(Map map, Vector2f start) throws SlickException{
 		this.map = map;
 		this.current = start;
 		init();
@@ -62,7 +58,6 @@ public class RedGhostBrain implements Brain {
 	 */
 	private void init() throws SlickException {
 		updateThinkingTime = 0;
-		updatePlayerPositionTime = 0;
 		currentStepIndex = 0;
 		
 		dot = new Image("data/dot.gif");
@@ -90,14 +85,6 @@ public class RedGhostBrain implements Brain {
 				//doMovement(step, delta);
 			}
 		}
-		// update logic of thinking of a ghost
-		updatePlayerPositionTime = updatePlayerPositionTime + delta;
-		
-		if (updatePlayerPositionTime > 3000) {
-			updatePlayerPositionTime = 0;
-			reThink(current, map, path);
-		}
-
 	}
 	
 	/**
@@ -111,17 +98,15 @@ public class RedGhostBrain implements Brain {
 		currentStepIndex = 0;
 		path = null;
 		updatePathToPlayer();
-		//Log.info("rethink");
 	}
 
 	/**
 	 * Update path for the ghost relative to the player position
 	 */
 	private void updatePathToPlayer() {
-
-		Player pl = Map.getPlayer();
+		Vector2f corner = map.getRandomCorner();
 		path = map.getUpdatedPath((int) current.getX() / 32, (int) current.getY() / 32,
-				(int) pl.getX() / 32, (int) pl.getY() / 32);
+				(int)corner.getX(), (int) corner.getY());
 	}
 
 	/**
@@ -157,6 +142,10 @@ public class RedGhostBrain implements Brain {
 	public void goToNextStep(Vector2f position){
 		this.currentStepIndex++;
 		this.current = position;
+	}
+
+	public boolean isCannotFindPath() {
+		return false;
 	}
 
 }

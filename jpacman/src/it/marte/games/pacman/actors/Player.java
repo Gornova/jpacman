@@ -17,6 +17,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.util.Log;
 
 /**
  * Player-Controlled Pacman
@@ -162,7 +163,13 @@ public class Player extends Body {
 				if (lives == 0) {
 					manager.enter(State.DEATH);
 				} else {
-					manager.enter(State.BLINK);
+					
+					Ghost gh = (Ghost)obstacle;
+					if (gh.getState().equals(Ghost.State.EATABLE)){
+						//gh.setToRemove();
+					} else {
+						manager.enter(State.BLINK);						
+					}
 				}
 			}
         }
@@ -180,8 +187,7 @@ public class Player extends Body {
     					if (lastDir.equalsIgnoreCase("down")) {
     						sprite = down;
     					} else {
-    						//TODO: log this!
-    						return;
+    						Log.error("Player.doNormalAnim - impossibile to determine current anim");    						return;
     					}
     				}
     			}
@@ -265,7 +271,7 @@ public class Player extends Body {
     					if (lastDir.equalsIgnoreCase("down")) {
     						sprite = deathDown;
     					} else {
-    						//TODO: log this!
+    						Log.error("Player.doDeathAnim - impossibile to determine current anim");
     						return;
     					}
     				}
@@ -381,8 +387,7 @@ public class Player extends Body {
     					if (lastDir.equalsIgnoreCase("down")) {
     						sprite = blinkDown;
     					} else {
-    						//TODO: log this!
-    						return;
+    						Log.error("Player.doBlinkAnim - impossibile to determine current anim");    						return;
     					}
     				}
     			}
@@ -442,7 +447,7 @@ public class Player extends Body {
 	 * @return true if is it possibile, false otherwise
 	 */
 	private boolean tryMove(float x, float y) {
-		//TODO: 25 is value for collision detection!
+		//REMIND: 25 is value for collision detection!
 		Rectangle rect = new Rectangle(x, y, 25, 25);
 		DummyBody dummy = new DummyBody(rect);
 

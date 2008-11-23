@@ -13,6 +13,7 @@ import it.marte.games.pacman.base.Entity;
 import it.marte.games.pacman.base.Level;
 
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Vector;
 
 import org.newdawn.slick.GameContainer;
@@ -60,6 +61,9 @@ public class Map implements Entity, TileBasedMap {
 	
 	/** ghost entities */
 	private Iterable<Body> ghostEnt;
+
+	/** ghost main base! */
+	private Vector2f base;
 	
 	/**
 	 * Load map from specified mapPath and blocking entities used to do
@@ -75,6 +79,8 @@ public class Map implements Entity, TileBasedMap {
 		collectableEnt = loadGemEntities(LAYER.bonus, "gem");
 		eatGemEnt = loadEatGemEntities(LAYER.bonus, "eatGem");
 		ghostEnt = loadGhostEntities(Map.LAYER.entity, "ghost");
+		base = loadBaseEntity(Map.LAYER.entity, "base");		
+		
 		blocked = getCollisionMatrix(map,"blocked","false");
 	}
 
@@ -223,14 +229,29 @@ public class Map implements Entity, TileBasedMap {
 					try {
 						ghost = new Ghost(this,rect);
 					} catch (SlickException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Log.error(e);
 					}
 					ent.add(ghost);
 				}
 			}
 		}
 		return ent;
+	}
+
+	private Vector2f loadBaseEntity(LAYER layer, String prop) {
+		Vector2f base = new Vector2f(0, 0);
+
+		for (int xAxis = 0; xAxis < map.getWidth(); xAxis++) {
+			for (int yAxis = 0; yAxis < map.getHeight(); yAxis++) {
+				int tileID = map.getTileId(xAxis, yAxis, layer.ordinal());
+				String value = map.getTileProperty(tileID, prop, "false");
+				if ("true".equals(value)) {
+					base = new Vector2f(xAxis, yAxis);
+					return base;
+				}
+			}
+		}
+		return base;
 	}
 	
 	
@@ -327,18 +348,17 @@ public class Map implements Entity, TileBasedMap {
 	}
 
 	
-	public Path getUpdatedPath(int sx, int sy, int ex, int ey){
+	public Path getUpdatedPath(int sx, int sy, int ex, int ey) throws NullPointerException{
 		Path path;
 		
 		// find any blocked paths
 		AStarPathFinder pathfinder = new AStarPathFinder(this, 1000, false);
 		Mover dummyMover = new Mover() {};
 		path = pathfinder.findPath(dummyMover, sx, sy, ex, ey);
-		if (path == null) {
-			//TODO: better error handling here!
-			Log.error("cannot find a path!");
+		if (path != null) {
+			return path;
 		}
-		return path;	
+		throw new NullPointerException("cannot find a path");
 		
 	}
 
@@ -397,10 +417,43 @@ public class Map implements Entity, TileBasedMap {
 	
 	public Vector2f getRandomCorner(){
 		//TODO: randomize corners!
-		Vector2f corner = new Vector2f();
-		corner.x = 0;
-		corner.y = 0;
+		// 3,4 - 21,4 - 3,15 - 21,15
+		
+		Vector2f corner = new Vector2f();		
+		Random rnd = new Random();
+		int value = rnd.nextInt(3);
+		
+		switch (value) {
+		case 0:
+			corner.x = 3;
+			corner.y = 4;
+			break;
+		case 1:
+			corner.x = 21;
+			corner.y = 4;
+			break;
+		case 2:
+			corner.x = 3;
+			corner.y = 15;
+			break;
+		case 3:
+			corner.x = 21;
+			corner.y = 15;
+			break;
+		default:
+			corner.x = 3;
+			corner.y = 4;
+			break;
+		}
+
 		return corner;
+	}
+
+	/**
+	 * @return the base
+	 */
+	public Vector2f getBase() {
+		return base;
 	}
 
 }

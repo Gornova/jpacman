@@ -53,4 +53,8 @@ public interface Entity extends Animatable {
 	 * @return the toRemove
 	 */
 	public boolean isToRemove();
+	
+	
+	
+	
 }

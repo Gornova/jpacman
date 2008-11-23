@@ -5,6 +5,7 @@ import it.marte.games.pacman.state.LevelLose;
 import it.marte.games.pacman.state.LevelWin;
 import it.marte.games.pacman.state.Menu;
 import it.marte.games.pacman.state.Pause;
+import it.marte.games.pacman.state.ScoreTable;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -35,6 +36,7 @@ public class PacManGame extends StateBasedGame{
 		addState(new Pause());
 		addState(new LevelLose());
 		addState(new LevelWin());
+		addState(new ScoreTable());
 	}
 
 }
