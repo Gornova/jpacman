@@ -1,7 +1,6 @@
 package it.marte.games.pacman.state;
 
-import it.marte.games.pacman.base.Score;
-
+import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -11,11 +10,20 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import org.newdawn.slick.util.Log;
 
-public class LevelLose extends BasicGameState {
+public class ScoreTable extends BasicGameState {
 
-	public static final int ID = 3;
-	private StateBasedGame game;
+	public static final int ID = 5;
+	
+	/** The game holding this state */
+	private StateBasedGame game;	
+	/** Font used **/
+	private AngelCodeFont font;
+	
+	private FadeOutTransition fot;
+	
+	private FadeInTransition fit;
 	
 	@Override
 	public int getID() {
@@ -25,27 +33,33 @@ public class LevelLose extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		this.game = game;
+		fot = new FadeOutTransition(Color.black);
+		fit = new FadeInTransition(Color.black);
+		try {
+			font = new AngelCodeFont("data/demo2.fnt","data/demo2_00.tga");
+		} catch (SlickException e1) {
+			Log.error(e1);
+		}		
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
+		g.setFont(font);
+		g.drawString("Pacman Scoretable", 340, 50);
+		//TODO: put scoretable here!
 		
-		g.drawString("Score :"+ Score.getFinalScore(), 20, 20);
-		g.drawString("Level LOSED! To return to the menu, press SPACE", 100, 100);
+		g.drawString("Press enter to continue", 340, 200);
+		
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 	}
-	
-	/**
-	 * @see org.newdawn.slick.state.BasicGameState#keyReleased(int, char)
-	 */
+
 	public void keyReleased(int key, char c) {
-		if (key == Input.KEY_SPACE) {
-			game.enterState(Menu.ID,new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+		if (key == Input.KEY_ENTER) {
+			game.enterState(Menu.ID,fot,fit);
 		}
-	}	
-
-
+	}
+	
 }

@@ -22,8 +22,6 @@ public class DummyBody extends Body {
 	}
 
 	public void addToLevel(Level l) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public Role getRole() {
@@ -31,22 +29,15 @@ public class DummyBody extends Body {
 	}
 
 	public void onCollision(Entity obstacle) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void removeFromLevel(Level l) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void render(BasicGameState game, Graphics g) {
-		// TODO Auto-generated method stub
 	}
 
 	public void update(GameContainer game, int delta) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public boolean isToRemove() {

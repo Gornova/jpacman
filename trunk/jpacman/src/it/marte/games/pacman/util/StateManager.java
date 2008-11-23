@@ -16,6 +16,8 @@ public class StateManager {
     private LinkedList<State> states;
     private State currentState;
     
+    private State previousState;
+    
     public StateManager() {
         states = new LinkedList<State>();
         currentState = null;
@@ -32,12 +34,12 @@ public class StateManager {
     /**
      * Attempts to enter the target state. Fails silently!!
      * 
-     * TODO have this fail politely but loudly.
-     * @param o
+     * @param State to enter
      */
     public void enter(Object o) {
         for (State s : states) {
             if (s.equals(o)) {
+            	previousState = currentState;
                 currentState = s;
                 currentState.enter();
             }
@@ -56,8 +58,12 @@ public class StateManager {
         currentState.render(g);
     }
 
-    public Object currentState() {
+    public State currentState() {
         return currentState;
     }
+
+	public State getPreviousState() {
+		return previousState;
+	}
 
 }

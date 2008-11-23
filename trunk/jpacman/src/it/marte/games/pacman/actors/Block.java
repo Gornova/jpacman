@@ -45,7 +45,6 @@ public class Block extends Body {
 	}
 
 	public void update(GameContainer game, int delta) {
-		// TODO nothing to do?
 	}
 
 	public boolean isToRemove() {

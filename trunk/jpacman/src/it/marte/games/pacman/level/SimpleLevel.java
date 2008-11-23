@@ -58,8 +58,7 @@ public class SimpleLevel implements Level {
 		try {
 			font = new AngelCodeFont("data/demo2.fnt", "data/demo2_00.tga");
 		} catch (SlickException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			Log.error(e1);
 		}
 
 		entities = new Vector<Entity>();
@@ -102,7 +101,6 @@ public class SimpleLevel implements Level {
 			e.render(game, g);
 		}
 		// User Interface
-		// TODO: use xml definition for ui?
 		box.draw(0, 0);
 		font.drawString(10, 10, "Score: " + Score.getScore());
 		font.drawString(10, 40, "Time : " + Clock.getTime());
@@ -129,7 +127,6 @@ public class SimpleLevel implements Level {
 		// update score
 		Score.setScore(Map.getPlayer().getScore());
 		// update clock
-		// TODO: score and time are correct here?
 		clock.update(delta);
 		Score.setTime(Clock.getTimer());
 	}
@@ -185,6 +182,8 @@ public class SimpleLevel implements Level {
 
 	/**
 	 * Check if there are entities to remove, and if so, removes from Level!
+	 * 
+	 * note: if player eat a particular gem, ghost change their status !
 	 */
 	private void removeEntities() {
 		Vector<Entity> removeable = new Vector<Entity>();
@@ -193,7 +192,6 @@ public class SimpleLevel implements Level {
 			Entity ent = iterator.next();
 			if (ent.isToRemove()) {
 				removeable.add(ent);
-				//TODO: é giusto che questo stia qui ?!?
 				if (ent.getRole().equals(Role.EATGEM)){
 					// appena mangiata una eatgem, lo dico ai fantasmi!
 					alertGhostsEatable();

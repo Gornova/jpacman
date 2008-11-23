@@ -83,7 +83,7 @@ public class Menu extends BasicGameState {
 				game.enterState(Game.ID, fot ,fit );				
 			}
 			if (selected == 1){
-				//TODO: classifica
+				game.enterState(ScoreTable.ID, fot ,fit );				
 			}
 			if (selected == 2){
 				game.getContainer().exit();

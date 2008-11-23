@@ -29,8 +29,6 @@ public class LevelWin extends BasicGameState {
 
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
-		//TODO: add a better interface here!
-		
 		g.drawString("Score :"+ Score.getFinalScore(), 20, 20);
 		g.drawString("Level WIN! To return to the menu, press SPACE", 100, 100);
 	}
