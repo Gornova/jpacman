@@ -106,4 +106,52 @@
    <property name="base" value="true"/>
   </properties>
  </tile>
+ <tile id="32">
+  <properties>
+   <property name="ghost" value="true"/>
+   <property name="red" value="true"/>
+  </properties>
+ </tile>
+ <tile id="33">
+  <properties>
+   <property name="ghost" value="true"/>
+   <property name="pink" value="true"/>
+  </properties>
+ </tile>
+ <tile id="34">
+  <properties>
+   <property name="blue" value="true"/>
+   <property name="ghost" value="true"/>
+  </properties>
+ </tile>
+ <tile id="35">
+  <properties>
+   <property name="ghost" value="true"/>
+   <property name="orange" value="true"/>
+  </properties>
+ </tile>
+ <tile id="40">
+  <properties>
+   <property name="a" value="true"/>
+   <property name="position" value="true"/>
+  </properties>
+ </tile>
+ <tile id="41">
+  <properties>
+   <property name="b" value="true"/>
+   <property name="position" value="true"/>
+  </properties>
+ </tile>
+ <tile id="42">
+  <properties>
+   <property name="c" value="true"/>
+   <property name="position" value="true"/>
+  </properties>
+ </tile>
+ <tile id="43">
+  <properties>
+   <property name="d" value="true"/>
+   <property name="position" value="true"/>
+  </properties>
+ </tile>
 </tileset>

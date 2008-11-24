@@ -8,6 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.util.Log;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.Path.Step;
 
@@ -56,11 +57,16 @@ public class RunningGhostBrain implements Brain {
 	 * 
 	 * @throws SlickException 
 	 */
-	private void init() throws SlickException {
+	public void init() {
+		path = null;
 		updateThinkingTime = 0;
 		currentStepIndex = 0;
 		
-		dot = new Image("data/dot.gif");
+		try {
+			dot = new Image("data/dot.gif");
+		} catch (SlickException e) {
+			Log.error(e);
+		}
 		updatePathToPlayer();
 	}
 
@@ -146,6 +152,10 @@ public class RunningGhostBrain implements Brain {
 
 	public boolean isCannotFindPath() {
 		return false;
+	}
+
+	public void setCurrent(Vector2f current) {
+		this.current = current;
 	}
 
 }

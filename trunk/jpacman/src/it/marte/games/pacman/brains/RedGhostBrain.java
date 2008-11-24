@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.util.Log;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.Path.Step;
 
@@ -43,7 +44,9 @@ public class RedGhostBrain implements Brain {
 	private Vector2f current;
 
 	/** Game Map  **/
-	private Map map; 
+	private Map map;
+
+	private boolean cannotFindPath; 
 	
 	/**
 	 * Start RedGhost logic based on a map and a start position
@@ -62,12 +65,18 @@ public class RedGhostBrain implements Brain {
 	 * 
 	 * @throws SlickException 
 	 */
-	private void init() throws SlickException {
+	public void init()  {
+		path = null;
 		updateThinkingTime = 0;
 		updatePlayerPositionTime = 0;
 		currentStepIndex = 0;
+		cannotFindPath = false;
 		
-		dot = new Image("data/dot.gif");
+		try {
+			dot = new Image("data/dot.gif");
+		} catch (SlickException e) {
+			Log.error(e);
+		}
 		updatePathToPlayer();
 	}
 
@@ -87,15 +96,12 @@ public class RedGhostBrain implements Brain {
 
 			if (currentStepIndex > path.getLength() - 1) {
 				reThink(current, map, path);				
-			} else {
-				//currentStep = path.getStep(currentStepIndex);
-				//doMovement(step, delta);
 			}
 		}
 		// update logic of thinking of a ghost
 		updatePlayerPositionTime = updatePlayerPositionTime + delta;
 		
-		if (updatePlayerPositionTime > 3000) {
+		if (updatePlayerPositionTime > 5000) {
 			updatePlayerPositionTime = 0;
 			reThink(current, map, path);
 		}
@@ -110,10 +116,22 @@ public class RedGhostBrain implements Brain {
 	 * @param path
 	 */
 	private void reThink(Vector2f current, Map map, Path path){
+		Path tempPAth = path;
+		int tempCurrent = currentStepIndex;
+		// rethink
 		currentStepIndex = 0;
 		path = null;
 		updatePathToPlayer();
-		//Log.info("rethink");
+		
+		//TODO: remove this
+		if (path!=null){
+			Step oldLast = tempPAth.getStep(tempCurrent);
+			Step newFirst = path.getStep(currentStepIndex);
+			
+			Log.debug("RED Rethink");
+			Log.debug("X diff : "+ Math.abs(oldLast.getX()-newFirst.getX() )  );
+			Log.debug("Y diff : "+ Math.abs(oldLast.getY()-newFirst.getY() )  );
+		}
 	}
 
 	/**
@@ -122,8 +140,13 @@ public class RedGhostBrain implements Brain {
 	private void updatePathToPlayer() {
 
 		Player pl = Map.getPlayer();
-		path = map.getUpdatedPath((int) current.getX() / 32, (int) current.getY() / 32,
-				(int) pl.getX() / 32, (int) pl.getY() / 32);
+		try {
+			path = map.getUpdatedPath((int) current.getX() / 32, (int) current.getY() / 32,
+					(int) pl.getX() / 32, (int) pl.getY() / 32);
+		} catch (NullPointerException e){
+			path = null;
+			cannotFindPath = true;
+		}
 	}
 
 	/**
@@ -162,7 +185,14 @@ public class RedGhostBrain implements Brain {
 	}
 
 	public boolean isCannotFindPath() {
-		return false;
+		return cannotFindPath;
+	}
+
+	/**
+	 * @param current the current to set
+	 */
+	public void setCurrent(Vector2f current) {
+		this.current = current;
 	}
 
 }

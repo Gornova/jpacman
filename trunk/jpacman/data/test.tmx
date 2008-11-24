@@ -9,12 +9,12 @@
  </layer>
  <layer name="entity" width="25" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAGNgGAWjgP6AHQcblxpigTSUZiFDL6lgONiBLYxlgFgWSo+CgQWsDIg44mAgL0+MgpEDAGB+uvfQBwAA
+   H4sIAAAAAAAAAGNgGAVDDWjhENekqysoA+xIbBUorYxHDbFAGkqzkKGXVDAc7MAWxopALAvESjS2exTgB9pAzMqAiCMOKK0zMM4ZBUMAAAB2nHJa0AcAAA==
   </data>
  </layer>
  <layer name="bonus" width="25" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAGNgGAWDFUgiYRiQGiC3jIJRMApGwSgY3AAAMQmRdtAHAAA=
+   H4sIAAAAAAAAAGNgGAWDFUgiYSkkPApGwSgYBaNgFKADANJtgPTQBwAA
   </data>
  </layer>
 </map>
