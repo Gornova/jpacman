@@ -11,6 +11,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.util.Log;
 
 public class PacManGame extends StateBasedGame{
 
@@ -20,6 +21,8 @@ public class PacManGame extends StateBasedGame{
 
 	public static void main(String[] arguments) {
 		try {
+			Log.setVerbose(true);
+			
 			AppGameContainer app = new AppGameContainer(new PacManGame());
 			app.setDisplayMode(800, 600, false);
 			app.setShowFPS(false);

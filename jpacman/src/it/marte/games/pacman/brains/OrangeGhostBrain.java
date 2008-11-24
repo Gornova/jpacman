@@ -13,14 +13,14 @@ import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.Path.Step;
 
 /**
- * Running Ghost
- * 
- * Escape from player, go to corners!
- * 
+ * Orange ghost (Machibuse): 
+ *
+ * Go random, when see player, follow him for some time
+ *  
  * @author AM
  * @project PacMan
  */
-public class GoToBaseGhostBrain implements Brain {
+public class OrangeGhostBrain implements Brain {
 
 	/** Internal thinking delta **/
 	private int updateThinkingTime;
@@ -38,9 +38,11 @@ public class GoToBaseGhostBrain implements Brain {
 	private Vector2f current;
 
 	/** Game Map  **/
-	private Map map; 
+	private Map map;
 	
-	private boolean cannotFindPath;
+	private int followTimer;
+
+	private boolean cannotFindPath; 
 	
 	/**
 	 * Start RedGhost logic based on a map and a start position
@@ -48,7 +50,7 @@ public class GoToBaseGhostBrain implements Brain {
 	 * @param start
 	 * @throws SlickException 
 	 */
-	public GoToBaseGhostBrain(Map map, Vector2f start) throws SlickException{
+	public OrangeGhostBrain(Map map, Vector2f start) throws SlickException{
 		this.map = map;
 		this.current = start;
 		init();
@@ -60,17 +62,19 @@ public class GoToBaseGhostBrain implements Brain {
 	 * @throws SlickException 
 	 */
 	public void init() {
+		
 		path = null;
 		updateThinkingTime = 0;
+		followTimer = 0;
 		currentStepIndex = 0;
-		
 		cannotFindPath = false;
+		
 		try {
-			dot = new Image("data/dot.gif");
+			dot = new Image("data/orangedot.gif");
 		} catch (SlickException e) {
 			Log.error(e);
 		}
-		updatePathToBase();
+		updatePathToPlayer();
 	}
 
 	/**
@@ -79,7 +83,7 @@ public class GoToBaseGhostBrain implements Brain {
 	public void update(int delta) {
 		// Update path if there is not one
 		if (path == null) {
-			updatePathToBase();
+			updatePathToPlayer();
 			return;
 		}
 		// update logic of movement of a ghost
@@ -89,10 +93,13 @@ public class GoToBaseGhostBrain implements Brain {
 
 			if (currentStepIndex > path.getLength() - 1) {
 				reThink(current, map, path);				
-			} else {
-				//currentStep = path.getStep(currentStepIndex);
-				//doMovement(step, delta);
-			}
+			} 
+		}
+		// update logic of player follow
+		followTimer = followTimer + delta;
+		if (followTimer > 20000){
+			updatePathToPlayer();
+			followTimer = 0;
 		}
 	}
 	
@@ -106,20 +113,29 @@ public class GoToBaseGhostBrain implements Brain {
 	private void reThink(Vector2f current, Map map, Path path){
 		currentStepIndex = 0;
 		path = null;
-		updatePathToBase();
+		updatePathToPlayer();
 	}
 
 	/**
 	 * Update path for the ghost relative to the player position
 	 */
-	private void updatePathToBase() {
-		Vector2f base = map.getBase();
+	private void updatePathToPlayer() {
+
+		
+		Vector2f target = map.getRandomPoint();
+
+		if (Map.getPlayer().getPosition().distance(current)< 8*32){
+			target = Map.getPlayer().getPosition();
+		}
 		try {
 			path = map.getUpdatedPath((int) current.getX() / 32, (int) current.getY() / 32,
-					(int)base.getX(), (int) base.getY());
+					(int) target.getX() / 32, (int) target.getY() / 32);
 		} catch (NullPointerException e){
+			path = null;
 			cannotFindPath = true;
 		}
+
+		
 	}
 
 	/**
@@ -143,7 +159,7 @@ public class GoToBaseGhostBrain implements Brain {
 	 */
 	public Step getCurrentStep() {
 		if (path==null){
-			updatePathToBase();
+			updatePathToPlayer();
 		}
 		return path.getStep(currentStepIndex);
 	}
@@ -157,11 +173,8 @@ public class GoToBaseGhostBrain implements Brain {
 		this.current = position;
 	}
 
-	/**
-	 * @return the cannotFindPath
-	 */
 	public boolean isCannotFindPath() {
-		return cannotFindPath;
+		return cannotFindPath ;
 	}
 
 	public void setCurrent(Vector2f current) {

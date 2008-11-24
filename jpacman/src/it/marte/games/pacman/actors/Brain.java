@@ -14,6 +14,11 @@ import org.newdawn.slick.util.pathfinding.Path.Step;
 public interface Brain {
 
 	/**
+	 * Initialize Brain internal logic
+	 */
+	public void init();
+	
+	/**
 	 * Update Brain thinking relative to a certain delta (in milliseconds) 
 	 * @param delta
 	 */
@@ -43,4 +48,6 @@ public interface Brain {
 	 */
 	public boolean isCannotFindPath();
 	
+	
+	public void setCurrent(Vector2f current);
 }

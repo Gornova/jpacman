@@ -69,6 +69,7 @@ public class Player extends Body {
 			// init states
 	        manager = new StateManager();
 	        manager.add(new NormalState());
+	        manager.add(new PowerState());
 	        manager.add(new DeathState());
 	        manager.add(new BlinkState());
 
@@ -155,6 +156,9 @@ public class Player extends Body {
         }
 
         public void onCollision(Entity obstacle) {
+			if (obstacle.getRole().equals(Entity.Role.EATGEM)) {
+				manager.enter(State.POWER);
+			}
 			if (obstacle.getRole().equals(Entity.Role.GOLD)) {
 				score++;
 			}
@@ -213,6 +217,133 @@ public class Player extends Body {
     	}
     	
     }
+
+    private class PowerState implements it.marte.games.pacman.util.State {
+
+    	private int timer;
+    	
+    	private Animation up, down, left, right;
+    	
+        public boolean equals(Object state) {
+            return state == State.POWER;
+        }
+
+        public void enter() {
+			// load basic animations
+			right = SheetUtil.getAnimationFromSheet(sheet, 0, 0, 2);
+			left = SheetUtil.getAnimationFromSheet(sheet, 1, 0, 2);
+			up = SheetUtil.getAnimationFromSheet(sheet, 2, 0, 2);
+			down = SheetUtil.getAnimationFromSheet(sheet, 3, 0, 2);
+			
+			doNormalAnim();
+			timer = 0;
+        }
+
+        public void update(GameContainer game, int delta) {
+        	timer = timer + delta;
+        	if (timer > 10000){
+        		manager.enter(State.NORMAL);
+        	}
+        	
+			Input input = game.getInput();
+
+			boolean keyRight = input.isKeyDown(Input.KEY_RIGHT);
+			boolean keyLeft = input.isKeyDown(Input.KEY_LEFT);
+			boolean keyUp = input.isKeyDown(Input.KEY_UP);
+			boolean keyDown = input.isKeyDown(Input.KEY_DOWN);
+			
+			if (keyUp) {
+				sprite = getCurrentAnimation(true,false,false,false);
+				if (tryMove(getX(), getY() - delta * SPEED)) {
+					sprite.update(delta);
+					float y = getY() - delta * SPEED;
+					shape.setY(y);
+					lastDir="up";
+				}
+			} else {
+				if (keyDown) {
+					sprite = getCurrentAnimation(false,true,false,false);
+					if (tryMove(getX(), getY() + delta * SPEED)) {
+						sprite.update(delta);
+						float y = getY() + delta * SPEED;
+						shape.setY(y);
+						lastDir="down";
+					}
+				} else {
+					if (keyLeft) {
+						sprite = getCurrentAnimation(false,false,false,true);
+						if (tryMove(getX() - delta * SPEED, getY())) {
+							sprite.update(delta);
+							float x = getX() - delta * SPEED;
+							shape.setX(x);
+							lastDir="left";
+						}
+					} else {
+						if (keyRight) {
+							sprite = getCurrentAnimation(false,false,true,false);
+							if (tryMove(getX() + delta * SPEED, getY())) {
+								sprite.update(delta);
+								float x = getX() + delta * SPEED;
+								shape.setX(x);
+								lastDir="right";
+							}
+						}
+					}
+				}
+			}
+        	
+        }
+
+        public void render(Graphics g) {
+        	sprite.draw(getX(), getY());
+        }
+
+        public void onCollision(Entity obstacle) {
+			if (obstacle.getRole().equals(Entity.Role.GOLD)) {
+				score++;
+			}
+        }
+
+    	private void doNormalAnim() {
+    		if (lastDir.equalsIgnoreCase("up")) {
+    			sprite = up;
+    		} else {
+    			if (lastDir.equalsIgnoreCase("right")) {
+    				sprite = right;
+    			} else {
+    				if (lastDir.equalsIgnoreCase("left")) {
+    					sprite = left;
+    				} else {
+    					if (lastDir.equalsIgnoreCase("down")) {
+    						sprite = down;
+    					} else {
+    						Log.error("Player.doNormalAnim - impossibile to determine current anim");    						return;
+    					}
+    				}
+    			}
+
+    		}
+    	}
+
+    	private Animation getCurrentAnimation(boolean upDir, boolean downDir, boolean rightDir, boolean leftDir){
+    		// check last direction of movement
+    		if (upDir){
+    			return up;
+    		}
+    		if (downDir){
+    			return down;
+    		}
+    		if (leftDir){
+    			return left;
+    		}
+    		if (rightDir){
+    			return right;
+    		}
+    		return null;
+    	}
+    	
+    }
+    
     
     private class DeathState implements it.marte.games.pacman.util.State {
 

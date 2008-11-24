@@ -12,9 +12,12 @@ import it.marte.games.pacman.actors.Player;
 import it.marte.games.pacman.base.Body;
 import it.marte.games.pacman.base.Entity;
 import it.marte.games.pacman.base.Level;
+import it.marte.games.pacman.brains.BlueGhostBrain;
+import it.marte.games.pacman.brains.OrangeGhostBrain;
 import it.marte.games.pacman.brains.PinkGhostBrain;
 import it.marte.games.pacman.brains.RedGhostBrain;
 
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
@@ -67,6 +70,8 @@ public class Map implements Entity, TileBasedMap {
 
 	/** ghost main base! */
 	private Vector2f base;
+
+	private Hashtable<String, Vector2f> bluePoint;
 	
 	/**
 	 * Load map from specified mapPath and blocking entities used to do
@@ -78,13 +83,15 @@ public class Map implements Entity, TileBasedMap {
 	public Map(String mapPath) throws SlickException {
 		map = new TiledMap(mapPath);
 		player = loadPlayer();
+		blocked = getCollisionMatrix(map,"blocked","false");		
 		blockingEnt = loadBlockingEntities(LAYER.terrain, "blocked");
 		collectableEnt = loadGemEntities(LAYER.bonus, "gem");
 		eatGemEnt = loadEatGemEntities(LAYER.bonus, "eatGem");
-		ghostEnt = loadGhostEntities(Map.LAYER.entity, "ghost");
-		base = loadBaseEntity(Map.LAYER.entity, "base");		
+		bluePoint = loadBluePoint(LAYER.entity,"position");
 		
-		blocked = getCollisionMatrix(map,"blocked","false");
+		ghostEnt = loadGhostEntities(LAYER.entity, "ghost");
+		base = loadBaseEntity(Map.LAYER.entity, "base");		
+
 	}
 
 	public void render(BasicGameState game, Graphics g) {
@@ -245,6 +252,20 @@ public class Map implements Entity, TileBasedMap {
 							b = new PinkGhostBrain(this,pos);
 							ghost = new Ghost(this,rect,b,2);
 						}
+						color = map.getTileProperty(tileID, "blue", "false");						
+						if (color.equals("true")){
+							Vector2f pos = new Vector2f();
+							pos.set(xAxis*32, yAxis*32);
+							b = new BlueGhostBrain(this,pos);
+							ghost = new Ghost(this,rect,b,3);
+						}
+						color = map.getTileProperty(tileID, "orange", "false");						
+						if (color.equals("true")){
+							Vector2f pos = new Vector2f();
+							pos.set(xAxis*32, yAxis*32);
+							b = new OrangeGhostBrain(this,pos);
+							ghost = new Ghost(this,rect,b,1);
+						}
 					} catch (SlickException e) {
 						Log.error(e);
 					}
@@ -255,6 +276,43 @@ public class Map implements Entity, TileBasedMap {
 		return ent;
 	}
 
+	private Hashtable<String,Vector2f> loadBluePoint(LAYER layer, String prop) {
+		Hashtable<String,Vector2f> positions = new Hashtable<String,Vector2f>();
+
+		for (int xAxis = 0; xAxis < map.getWidth(); xAxis++) {
+			for (int yAxis = 0; yAxis < map.getHeight(); yAxis++) {
+				int tileID = map.getTileId(xAxis, yAxis, layer.ordinal());
+				// blocked
+				String value = map.getTileProperty(tileID, prop, "false");
+				if ("true".equals(value)) {
+					int blockSize = map.getTileHeight();
+					int xrec = xAxis * blockSize;
+					int yrec = yAxis * blockSize;
+
+					String name = map.getTileProperty(tileID, "a", "false");
+					if (name.equals("true")){
+						positions.put("a",new Vector2f(xrec,yrec));						
+					}
+					name = map.getTileProperty(tileID, "b", "false");
+					if (name.equals("true")){
+						positions.put("b",new Vector2f(xrec,yrec));						
+					}
+					name = map.getTileProperty(tileID, "c", "false");
+					if (name.equals("true")){
+						positions.put("c",new Vector2f(xrec,yrec));						
+					}
+					name = map.getTileProperty(tileID, "d", "false");
+					if (name.equals("true")){
+						positions.put("d",new Vector2f(xrec,yrec));						
+					}
+
+				}
+			}
+		}
+		return positions;
+	}
+	
+	
 	private Vector2f loadBaseEntity(LAYER layer, String prop) {
 		Vector2f base = new Vector2f(0, 0);
 
@@ -375,8 +433,8 @@ public class Map implements Entity, TileBasedMap {
 		if (path != null) {
 			return path;
 		} else {
-			return null;
-			//throw new NullPointerException("cannot find a path");			
+			//return null;
+			throw new NullPointerException("cannot find a path");			
 		}
 	}
 
@@ -434,13 +492,11 @@ public class Map implements Entity, TileBasedMap {
 	}
 	
 	public Vector2f getRandomCorner(){
-		//TODO: randomize corners!
+		//TODO: load corner position from map
 		// 3,4 - 21,4 - 3,15 - 21,15
-		
-		Vector2f corner = new Vector2f();		
+		Vector2f corner = new Vector2f(21,4);
 		Random rnd = new Random();
 		int value = rnd.nextInt(3);
-		
 		switch (value) {
 		case 0:
 			corner.x = 3;
@@ -464,14 +520,45 @@ public class Map implements Entity, TileBasedMap {
 			break;
 		}
 
+		
 		return corner;
 	}
 
+	/**
+	 * @return a random valid (not-blocked) point into map
+	 * 
+	 * note: already multiplied for map Size!
+	 */
+	public Vector2f getRandomPoint(){
+		Vector2f point = new Vector2f();
+		Random rnd = new Random();
+		boolean found = false;
+		while (!found){
+			int rndX = rnd.nextInt(map.getWidth()-1);
+			int rndY = rnd.nextInt(map.getHeight()-1);
+			
+			if (!blocked[rndX][rndY]){
+				point.x = rndX*32;
+				point.y = rndY*32;
+				found = true;
+			}
+		}
+		return point;
+	}
+	
+	
 	/**
 	 * @return the base
 	 */
 	public Vector2f getBase() {
 		return base;
+	}
+
+	/**
+	 * @return the bluePoint
+	 */
+	public Hashtable<String, Vector2f> getBluePoint() {
+		return bluePoint;
 	}
 
 }

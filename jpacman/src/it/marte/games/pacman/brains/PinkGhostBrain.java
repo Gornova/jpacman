@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.util.Log;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.Path.Step;
 
@@ -44,7 +45,9 @@ public class PinkGhostBrain implements Brain {
 	private Vector2f current;
 
 	/** Game Map  **/
-	private Map map; 
+	private Map map;
+
+	private boolean cannotFindPath; 
 	
 	/**
 	 * Start RedGhost logic based on a map and a start position
@@ -63,12 +66,18 @@ public class PinkGhostBrain implements Brain {
 	 * 
 	 * @throws SlickException 
 	 */
-	private void init() throws SlickException {
+	public void init() {
+		path = null;
 		updateThinkingTime = 0;
 		updatePlayerPositionTime = 0;
 		currentStepIndex = 0;
+		cannotFindPath = false;
 		
-		dot = new Image("data/pinkdot.gif");
+		try {
+			dot = new Image("data/pinkdot.gif");
+		} catch (SlickException e) {
+			Log.error(e);
+		}
 		updatePathToPlayer();
 	}
 
@@ -96,10 +105,12 @@ public class PinkGhostBrain implements Brain {
 		// update logic of thinking of a ghost
 		updatePlayerPositionTime = updatePlayerPositionTime + delta;
 		
+		/*
 		if (updatePlayerPositionTime > 3000) {
 			updatePlayerPositionTime = 0;
 			reThink(current, map, path);
 		}
+		*/
 
 	}
 	
@@ -127,25 +138,31 @@ public class PinkGhostBrain implements Brain {
 		String dir = pl.getLastDir();
 		
 		if (dir.equals("up")){
-			pos.y = pos.y - 4*32;			
+			pos.y = pos.y - 2*32;			
 		}
 		if (dir.equals("down")){
-			pos.y = pos.y + 4*32;
+			pos.y = pos.y + 2*32;
 		}
 		if (dir.equals("left")){
-			pos.x = pos.x - 4*32;
+			pos.x = pos.x - 2*32;
 		}
 		if (dir.equals("right")){
-			pos.x = pos.x + 4*32;
+			pos.x = pos.x + 2*32;
 		}
 		
-		if (!map.blocked(null, (int)pos.x/32, (int)pos.y/32)){
-			path = map.getUpdatedPath((int) current.getX() / 32, (int) current.getY() / 32,
-					(int) pos.getX() / 32, (int) pos.getY() / 32);
-		} else {
+		try {
+			if (!map.blocked(null, (int)pos.x/32, (int)pos.y/32)){
+				path = map.getUpdatedPath((int) current.getX() / 32, (int) current.getY() / 32,
+						(int) pos.getX() / 32, (int) pos.getY() / 32);
+			} else {
+				path = map.getUpdatedPath((int) current.getX() / 32, (int) current.getY() / 32,
+						(int) pl.getX() / 32, (int) pl.getY() / 32);
+			}
+		}catch (NullPointerException e){
 			path = map.getUpdatedPath((int) current.getX() / 32, (int) current.getY() / 32,
 					(int) pl.getX() / 32, (int) pl.getY() / 32);
 		}
+		
 		
 	}
 
@@ -185,7 +202,11 @@ public class PinkGhostBrain implements Brain {
 	}
 
 	public boolean isCannotFindPath() {
-		return false;
+		return cannotFindPath ;
+	}
+
+	public void setCurrent(Vector2f current) {
+		this.current = current;
 	}
 
 }

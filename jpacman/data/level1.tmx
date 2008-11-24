@@ -9,7 +9,7 @@
  </layer>
  <layer name="entity" width="25" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAGNgGAWjYBSMAgSQAWJZKD0KhgeQHmgHjAK6AACfM7G+0AcAAA==
+   H4sIAAAAAAAAAGNgGAWjYBSMAgRQBGJZKD0KhgeQHmgHjAK6AACAK0na0AcAAA==
   </data>
  </layer>
  <layer name="bonus" width="25" height="20">
