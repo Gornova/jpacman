@@ -9,7 +9,7 @@
  </layer>
  <layer name="entity" width="25" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAGNgGAVDDWjhENekqysoA+xIbBUorYxHDbFAGkqzkKGXVDAc7MAWxopALAvESjS2exTgB9pAzMqAiCMOKK0zMM4ZBUMAAAB2nHJa0AcAAA==
+   H4sIAAAAAAAAAGNgGAVDDWjhENekqysoA+xIbGUorYJHDbFAGkqzkKGXVDAc7MAWxopALAvESjS2exTgB9pAzMqAiCMOKK1DI/tUaWTuKKAfAACDGZ4T0AcAAA==
   </data>
  </layer>
  <layer name="bonus" width="25" height="20">

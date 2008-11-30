@@ -1,11 +1,14 @@
 package it.marte.games.pacman.brains;
 
+import java.util.Random;
+
 import it.marte.games.pacman.actors.Brain;
 import it.marte.games.pacman.map.Map;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.util.Log;
@@ -13,14 +16,15 @@ import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.Path.Step;
 
 /**
- * Running Ghost
- * 
- * Escape from player, go to corners!
- * 
+ * Orange ghost (Machibuse): 
+ *
+ * draw an imaginary circle around pacman, and then go random around it.
+ * when pacman are close, follow him!
+ *  
  * @author AM
  * @project PacMan
  */
-public class RunningGhostBrain implements Brain {
+public class GreenGhostBrain implements Brain {
 
 	/** Internal thinking delta **/
 	private int updateThinkingTime;
@@ -39,6 +43,8 @@ public class RunningGhostBrain implements Brain {
 
 	/** Game Map  **/
 	private Map map;
+	
+	private int followTimer;
 
 	private boolean cannotFindPath; 
 	
@@ -48,7 +54,7 @@ public class RunningGhostBrain implements Brain {
 	 * @param start
 	 * @throws SlickException 
 	 */
-	public RunningGhostBrain(Map map, Vector2f start) throws SlickException{
+	public GreenGhostBrain(Map map, Vector2f start) throws SlickException{
 		this.map = map;
 		this.current = start;
 		init();
@@ -60,13 +66,15 @@ public class RunningGhostBrain implements Brain {
 	 * @throws SlickException 
 	 */
 	public void init() {
-		cannotFindPath = false;
+		
 		path = null;
 		updateThinkingTime = 0;
+		followTimer = 0;
 		currentStepIndex = 0;
+		cannotFindPath = false;
 		
 		try {
-			dot = new Image("data/dot.gif");
+			dot = new Image("data/greendot.gif");
 		} catch (SlickException e) {
 			Log.error(e);
 		}
@@ -89,10 +97,13 @@ public class RunningGhostBrain implements Brain {
 
 			if (currentStepIndex > path.getLength() - 1) {
 				reThink(current, map, path);				
-			} else {
-				//currentStep = path.getStep(currentStepIndex);
-				//doMovement(step, delta);
-			}
+			} 
+		}
+		// update logic of player follow
+		followTimer = followTimer + delta;
+		if (followTimer > 20000){
+			updatePathToPlayer();
+			followTimer = 0;
 		}
 	}
 	
@@ -113,18 +124,27 @@ public class RunningGhostBrain implements Brain {
 	 * Update path for the ghost relative to the player position
 	 */
 	private void updatePathToPlayer() {
-		Vector2f corner = map.getRandomCorner();
-		if (corner == null){
-			Log.error("corner null!");
+
+		Circle circle = new Circle(Map.getPlayer().getCenterX(), Map.getPlayer().getCenterY(),32*4);
+
+		Random rnd = new Random();
+		int point = rnd.nextInt(circle.getPointCount());
+		
+		float[] points = circle.getPoint(point);
+		Vector2f target = new Vector2f(points[0],points[1]);
+
+		if (Map.getPlayer().getPosition().distance(current)< 4*32){
+			target = Map.getPlayer().getPosition();
 		}
 		try {
-		path = map.getUpdatedPath((int) current.getX() / 32, (int) current.getY() / 32,
-				(int)corner.getX(), (int) corner.getY());
+			path = map.getUpdatedPath((int) current.getX() / 32, (int) current.getY() / 32,
+					(int) target.getX() / 32, (int) target.getY() / 32);
 		} catch (NullPointerException e){
-			Log.error(e);
 			path = null;
 			cannotFindPath = true;
 		}
+
+		
 	}
 
 	/**
@@ -163,7 +183,7 @@ public class RunningGhostBrain implements Brain {
 	}
 
 	public boolean isCannotFindPath() {
-		return cannotFindPath;
+		return cannotFindPath ;
 	}
 
 	public void setCurrent(Vector2f current) {
