@@ -13,6 +13,7 @@ import it.marte.games.pacman.base.Body;
 import it.marte.games.pacman.base.Entity;
 import it.marte.games.pacman.base.Level;
 import it.marte.games.pacman.brains.BlueGhostBrain;
+import it.marte.games.pacman.brains.GreenGhostBrain;
 import it.marte.games.pacman.brains.OrangeGhostBrain;
 import it.marte.games.pacman.brains.PinkGhostBrain;
 import it.marte.games.pacman.brains.RedGhostBrain;
@@ -266,6 +267,14 @@ public class Map implements Entity, TileBasedMap {
 							b = new OrangeGhostBrain(this,pos);
 							ghost = new Ghost(this,rect,b,1);
 						}
+						color = map.getTileProperty(tileID, "green", "false");						
+						if (color.equals("true")){
+							Vector2f pos = new Vector2f();
+							pos.set(xAxis*32, yAxis*32);
+							b = new GreenGhostBrain(this,pos);
+							ghost = new Ghost(this,rect,b,6);
+						}
+						
 					} catch (SlickException e) {
 						Log.error(e);
 					}

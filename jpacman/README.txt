@@ -18,3 +18,6 @@ See LICENSE for license information
 4. Thanks to
 
 Slick - http://slick.cokeandcode.com/
+Gimp - http://www.gimp.org/
+Eclipse - http://www.eclipse.org
+Shade - http://github.com/shade

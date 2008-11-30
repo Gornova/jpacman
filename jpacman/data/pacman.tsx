@@ -130,6 +130,12 @@
    <property name="orange" value="true"/>
   </properties>
  </tile>
+ <tile id="36">
+  <properties>
+   <property name="ghost" value="true"/>
+   <property name="green" value="true"/>
+  </properties>
+ </tile>
  <tile id="40">
   <properties>
    <property name="a" value="true"/>
