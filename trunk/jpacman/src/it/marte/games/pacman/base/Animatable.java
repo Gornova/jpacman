@@ -11,7 +11,7 @@ import org.newdawn.slick.state.BasicGameState;
  */
 public interface Animatable {
 
-	public void render(BasicGameState game, Graphics g);
+    public void render(BasicGameState game, Graphics g);
 
-	public void update(GameContainer game, int delta);
+    public void update(GameContainer game, int delta);
 }

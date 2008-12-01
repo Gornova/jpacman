@@ -22,152 +22,160 @@ import org.newdawn.slick.util.pathfinding.Path.Step;
  */
 public class RunningGhostBrain implements Brain {
 
-	/** Internal thinking delta **/
-	private int updateThinkingTime;
-	
-	/** Current step index into path **/
-	private int currentStepIndex;
-	
-	/** Current path **/
-	private Path path;	
-	
-	/** Used to render brain thinking **/
-	private Image dot;
-	
-	/** Current position of Ghost **/
-	private Vector2f current;
+    /** Internal thinking time * */
+    private static final int THINKINGTIME = 50;
 
-	/** Game Map  **/
-	private Map map;
+    /** Internal thinking delta * */
+    private int updateThinkingTime;
 
-	private boolean cannotFindPath; 
-	
-	/**
-	 * Start RedGhost logic based on a map and a start position
-	 * @param map
-	 * @param start
-	 * @throws SlickException 
-	 */
-	public RunningGhostBrain(Map map, Vector2f start) throws SlickException{
-		this.map = map;
-		this.current = start;
-		init();
+    /** Current step index into path * */
+    private int currentStepIndex;
+
+    /** Current path * */
+    private Path path;
+
+    /** Used to render brain thinking * */
+    private Image dot;
+
+    /** Current position of Ghost * */
+    private Vector2f current;
+
+    /** Game Map * */
+    private Map map;
+
+    private boolean cannotFindPath;
+
+    /** Current corner of map * */
+    private Vector2f corner;
+
+    /**
+     * Start RedGhost logic based on a map and a start position
+     * 
+     * @param map
+     * @param start
+     * @throws SlickException
+     */
+    public RunningGhostBrain(Map map, Vector2f start) throws SlickException {
+	this.map = map;
+	this.current = start;
+	init();
+    }
+
+    /**
+     * Init brain Logic
+     * 
+     * @throws SlickException
+     */
+    public void init() {
+	cannotFindPath = false;
+	path = null;
+	updateThinkingTime = 0;
+	currentStepIndex = 0;
+
+	try {
+	    dot = new Image("data/dot.gif");
+	} catch (SlickException e) {
+	    Log.error(e);
 	}
-	
-	/**
-	 * Init brain Logic
-	 * 
-	 * @throws SlickException 
-	 */
-	public void init() {
-		cannotFindPath = false;
-		path = null;
-		updateThinkingTime = 0;
-		currentStepIndex = 0;
-		
-		try {
-			dot = new Image("data/dot.gif");
-		} catch (SlickException e) {
-			Log.error(e);
-		}
-		updatePathToPlayer();
-	}
-
-	/**
-	 * Update Brain logic
-	 */
-	public void update(int delta) {
-		// Update path if there is not one
-		if (path == null) {
-			updatePathToPlayer();
-			return;
-		}
-		// update logic of movement of a ghost
-		updateThinkingTime = updateThinkingTime + delta;
-		if (updateThinkingTime > 50) {
-			updateThinkingTime = 0;
-
-			if (currentStepIndex > path.getLength() - 1) {
-				reThink(current, map, path);				
-			} else {
-				//currentStep = path.getStep(currentStepIndex);
-				//doMovement(step, delta);
-			}
-		}
-	}
-	
-	/**
-	 * Rethink path  
-	 * 
-	 * @param current
-	 * @param map
-	 * @param path
-	 */
-	private void reThink(Vector2f current, Map map, Path path){
-		currentStepIndex = 0;
-		path = null;
-		updatePathToPlayer();
+	corner = map.getRandomCorner();
+	if (corner == null) {
+	    Log.error("corners null!");
 	}
 
-	/**
-	 * Update path for the ghost relative to the player position
-	 */
-	private void updatePathToPlayer() {
-		Vector2f corner = map.getRandomCorner();
-		if (corner == null){
-			Log.error("corner null!");
-		}
-		try {
-		path = map.getUpdatedPath((int) current.getX() / 32, (int) current.getY() / 32,
-				(int)corner.getX(), (int) corner.getY());
-		} catch (NullPointerException e){
-			Log.error(e);
-			path = null;
-			cannotFindPath = true;
-		}
-	}
+	updatePathToPlayer();
+    }
 
-	/**
-	 * Render Brain Path
-	 * 
-	 * @param game
-	 * @param g
-	 */
-	public void render(BasicGameState game, Graphics g) {
-		
-		if (path != null) {
-			for (int i = 0; i < path.getLength(); i++) {
-				Step a = path.getStep(i);
-				dot.draw(a.getX() * 32, a.getY() * 32);
-			}
-		}
+    /**
+     * Update Brain logic
+     */
+    public void update(int delta) {
+	// Update path if there is not one
+	if (path == null) {
+	    updatePathToPlayer();
+	    return;
 	}
+	// update logic of movement of a ghost
+	updateThinkingTime = updateThinkingTime + delta;
+	if (updateThinkingTime > THINKINGTIME) {
+	    updateThinkingTime = 0;
 
-	/**
-	 * Return current Step
-	 */
-	public Step getCurrentStep() {
-		if (path==null){
-			updatePathToPlayer();
-		}
-		return path.getStep(currentStepIndex);
+	    if (currentStepIndex > path.getLength() - 1) {
+		reThink(current, map, path);
+	    }
 	}
+    }
 
-	/**
-	 * Goto next step, based on current position
-	 * @param position
-	 */
-	public void goToNextStep(Vector2f position){
-		this.currentStepIndex++;
-		this.current = position;
-	}
+    /**
+     * Rethink path
+     * 
+     * @param current
+     * @param map
+     * @param path
+     */
+    private void reThink(Vector2f current, Map map, Path path) {
+	currentStepIndex = 0;
+	path = null;
+	updatePathToPlayer();
+    }
 
-	public boolean isCannotFindPath() {
-		return cannotFindPath;
+    /**
+     * Update path for the ghost relative to the player position
+     */
+    private void updatePathToPlayer() {
+	try {
+	    path = map.getUpdatedPath((int) current.getX() / map.getTileSize(),
+		    (int) current.getY() / map.getTileSize(), (int) corner
+			    .getX(), (int) corner.getY());
+	} catch (NullPointerException e) {
+	    Log.error(e);
+	    path = null;
+	    cannotFindPath = true;
 	}
+    }
 
-	public void setCurrent(Vector2f current) {
-		this.current = current;
+    /**
+     * Render Brain Path
+     * 
+     * @param game
+     * @param g
+     */
+    public void render(BasicGameState game, Graphics g) {
+
+	if (path != null) {
+	    for (int i = 0; i < path.getLength(); i++) {
+		Step a = path.getStep(i);
+		dot.draw(a.getX() * map.getTileSize(), a.getY()
+			* map.getTileSize());
+	    }
 	}
+    }
+
+    /**
+     * Return current Step
+     */
+    public Step getCurrentStep() {
+	if (path == null) {
+	    updatePathToPlayer();
+	}
+	return path.getStep(currentStepIndex);
+    }
+
+    /**
+     * Goto next step, based on current position
+     * 
+     * @param position
+     */
+    public void goToNextStep(Vector2f position) {
+	this.currentStepIndex++;
+	this.current = position;
+    }
+
+    public boolean isCannotFindPath() {
+	return cannotFindPath;
+    }
+
+    public void setCurrent(Vector2f current) {
+	this.current = current;
+    }
 
 }

@@ -10,6 +10,6 @@ import it.marte.games.pacman.util.State;
  */
 public interface Actor {
 
-	public State getState();
+    public State getState();
 
 }

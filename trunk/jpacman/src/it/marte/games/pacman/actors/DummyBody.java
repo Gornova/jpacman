@@ -17,31 +17,31 @@ import org.newdawn.slick.state.BasicGameState;
  */
 public class DummyBody extends Body {
 
-	public DummyBody(Shape shape) {
-		this.shape = shape;
-	}
+    public DummyBody(Shape shape) {
+	this.shape = shape;
+    }
 
-	public void addToLevel(Level l) {
-	}
+    public void addToLevel(Level l) {
+    }
 
-	public Role getRole() {
-		return Role.DUMMY;
-	}
+    public Role getRole() {
+	return Role.DUMMY;
+    }
 
-	public void onCollision(Entity obstacle) {
-	}
+    public void onCollision(Entity obstacle) {
+    }
 
-	public void removeFromLevel(Level l) {
-	}
+    public void removeFromLevel(Level l) {
+    }
 
-	public void render(BasicGameState game, Graphics g) {
-	}
+    public void render(BasicGameState game, Graphics g) {
+    }
 
-	public void update(GameContainer game, int delta) {
-	}
+    public void update(GameContainer game, int delta) {
+    }
 
-	public boolean isToRemove() {
-		return false;
-	}
+    public boolean isToRemove() {
+	return false;
+    }
 
 }

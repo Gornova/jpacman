@@ -4,12 +4,12 @@
  <!-- Layer data is compressed (GZip) binary data, encoded in Base64 -->
  <layer name="terrain" width="25" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAO2UywqAIBBFR1ppZS/qA/r/j8wgCepOpo47F4fgjnRovKSJSFeiGByLICtwWEfjUEJYxqFAfmY9mHG5TnSgGZfnOtA+Uhxf7/K9WAPukKOld0e2a2YezxGcnTK/42+ecx9nj3a6+1TizrtrH3NBh1Sv0HkDZlye2l3FOGL/JX7XUszAUQlzAAjUjOLQBwAA
+   H4sIAAAAAAAAAO2UywqAIBBFR1ppaWXU/39qBrqxO5mvnYuDcEc8OA5KIpKDLFbH0ZATOIxjcohGGMYhQP5kGtS4XBY6UI3Lax2oHyWOr7PCXJwJd8ox03tGLl9T0bqBvXvlPf7mNe+ho7XHmy++H7ajo9Vcof0K1Li8dHYF48j9S0KvW2GBY5DmBsbO25vQBwAA
   </data>
  </layer>
  <layer name="entity" width="25" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAGNgGAWjYBQMJaBIBztk6WDHcAHSA+2AUTAKoAAAUuUu29AHAAA=
+   H4sIAAAAAAAAAGNgGAWjYBQMJaBIBztk6WCHEh3soAeQHmgHjIJRAAUApAc8hNAHAAA=
   </data>
  </layer>
  <layer name="bonus" width="25" height="20">
