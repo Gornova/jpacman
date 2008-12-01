@@ -9,41 +9,41 @@ import org.newdawn.slick.geom.Vector2f;
  */
 public abstract class Body implements Entity {
 
-	/** The underlying shape of this body, used to perform intersection tests. */
-	protected Shape shape;
-	
-	public float getCenterX() {
-		return shape.getCenterX();
-	}
+    /** The underlying shape of this body, used to perform intersection tests. */
+    protected Shape shape;
 
-	public float getCenterY() {
-		return shape.getCenterY();
-	}
+    public float getCenterX() {
+	return shape.getCenterX();
+    }
 
-	public float getX() {
-		return shape.getX();
-	}
+    public float getCenterY() {
+	return shape.getCenterY();
+    }
 
-	public float getY() {
-		return shape.getY();
-	}
+    public float getX() {
+	return shape.getX();
+    }
 
-	public float getWidth() {
-		return shape.getMaxX() - shape.getX();
-	}
+    public float getY() {
+	return shape.getY();
+    }
 
-	public float getHeight() {
-		return shape.getMaxY() - shape.getY();
-	}
+    public float getWidth() {
+	return shape.getMaxX() - shape.getX();
+    }
 
-	@Override
-	public String toString() {
-		return "Body[" + getCenterX() + "," + getCenterY() + "]";
-	}
+    public float getHeight() {
+	return shape.getMaxY() - shape.getY();
+    }
 
-	public Vector2f getPosition(){
-		Vector2f pos = new Vector2f();
-		pos.set(shape.getX(), shape.getY());
-		return pos;
-	}
+    @Override
+    public String toString() {
+	return "Body[" + getCenterX() + "," + getCenterY() + "]";
+    }
+
+    public Vector2f getPosition() {
+	Vector2f pos = new Vector2f();
+	pos.set(shape.getX(), shape.getY());
+	return pos;
+    }
 }

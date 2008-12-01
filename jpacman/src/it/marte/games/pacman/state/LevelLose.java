@@ -14,38 +14,39 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class LevelLose extends BasicGameState {
 
-	public static final int ID = 3;
-	private StateBasedGame game;
-	
-	@Override
-	public int getID() {
-		return ID;
-	}
+    public static final int ID = 3;
+    private StateBasedGame game;
 
-	public void init(GameContainer container, StateBasedGame game)
-			throws SlickException {
-		this.game = game;
-	}
+    @Override
+    public int getID() {
+	return ID;
+    }
 
-	public void render(GameContainer container, StateBasedGame game, Graphics g)
-			throws SlickException {
-		
-		g.drawString("Score :"+ Score.getFinalScore(), 20, 20);
-		g.drawString("Level LOSED! To return to the menu, press SPACE", 100, 100);
-	}
+    public void init(GameContainer container, StateBasedGame game)
+	    throws SlickException {
+	this.game = game;
+    }
 
-	public void update(GameContainer container, StateBasedGame game, int delta)
-			throws SlickException {
-	}
-	
-	/**
-	 * @see org.newdawn.slick.state.BasicGameState#keyReleased(int, char)
-	 */
-	public void keyReleased(int key, char c) {
-		if (key == Input.KEY_SPACE) {
-			game.enterState(Menu.ID,new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
-		}
-	}	
+    public void render(GameContainer container, StateBasedGame game, Graphics g)
+	    throws SlickException {
 
+	g.drawString("Score :" + Score.getFinalScore(), 20, 20);
+	g.drawString("Level LOSED! To return to the menu, press SPACE", 100,
+		100);
+    }
+
+    public void update(GameContainer container, StateBasedGame game, int delta)
+	    throws SlickException {
+    }
+
+    /**
+     * @see org.newdawn.slick.state.BasicGameState#keyReleased(int, char)
+     */
+    public void keyReleased(int key, char c) {
+	if (key == Input.KEY_SPACE) {
+	    game.enterState(Menu.ID, new FadeOutTransition(Color.black),
+		    new FadeInTransition(Color.black));
+	}
+    }
 
 }

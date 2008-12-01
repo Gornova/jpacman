@@ -5,7 +5,6 @@ import it.marte.games.pacman.base.Entity;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-
 public interface State {
 
     public boolean equals(Object o);
@@ -17,5 +16,5 @@ public interface State {
     public void render(Graphics g);
 
     public void onCollision(Entity obstacle);
-    
+
 }

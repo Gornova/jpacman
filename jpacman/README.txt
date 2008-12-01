@@ -3,6 +3,8 @@ JPacMan
 A little Pacman java-clone
 
 
+Does really Pacman an introduction? 
+
 
 1. Introduction
 
