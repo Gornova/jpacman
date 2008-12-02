@@ -1,10 +1,12 @@
 package it.marte.games.pacman.state;
 
+import it.marte.games.pacman.util.ScoreRecord;
 import it.marte.games.pacman.util.ScoreTableLoader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -23,14 +25,10 @@ public class ScoreTable extends BasicGameState {
 
     /** The game holding this state */
     private StateBasedGame game;
-    /** Font used * */
-    //private AngelCodeFont font;
 
-    private FadeOutTransition fot;
+    private ArrayList<ScoreRecord> scores;
 
-    private FadeInTransition fit;
-
-    private Hashtable<String, String> scores;
+    private int updateTimer;
 
     @Override
     public int getID() {
@@ -40,23 +38,11 @@ public class ScoreTable extends BasicGameState {
     public void init(GameContainer container, StateBasedGame game)
 	    throws SlickException {
 	this.game = game;
-	fot = new FadeOutTransition(Color.black);
-	fit = new FadeInTransition(Color.black);
-	/*
-	try {
-	    font = new AngelCodeFont("data/demo2.fnt", "data/demo2_00.tga");
-	} catch (SlickException e1) {
-	    Log.error(e1);
-	}
-	*/
-	loadFromDisk();
-    }
-
-    private void loadFromDisk() {
-	// load scores from disk
+	updateTimer = 0;
 	try {
 	    ScoreTableLoader stl = new ScoreTableLoader("scoretable.properties");
-	    scores = stl.loadScoreTable();
+	    scores = new ArrayList<ScoreRecord>(stl.loadScoreTable());
+
 	} catch (FileNotFoundException e) {
 	    Log.error(e);
 	} catch (IOException e) {
@@ -66,39 +52,45 @@ public class ScoreTable extends BasicGameState {
 
     public void render(GameContainer container, StateBasedGame game, Graphics g)
 	    throws SlickException {
-	// g.setFont(font);
 	g.drawString("Pacman Scoretable", 100, 50);
 
 	// render only first 20 score
 	g.setColor(Color.red);
 	int counter = 0;
-	orderScores(scores);
-	for (String name : scores.keySet()) {
+	// ordering scores, best first
+	Collections.sort(scores);
+
+	for (ScoreRecord score : scores) {
 	    if (counter >= 20)
 		break;
-	    g.drawString(counter + " - " + name + filler(name, 20)
-		    + scores.get(name), 100, 90 + counter * 15);
+	    g.drawString(counter + " - " + score.getName(), 100,
+		    90 + counter * 15);
+	    g.drawString(score.getPoints().toString(), 300, 90 + counter * 15);
+
 	    counter++;
 	}
+
 	g.setColor(Color.white);
 
 	g.drawString("Press enter to continue", 100, 500);
 
     }
 
-    /** 
-     * Order an hashtable into a vector, based on crescent value order 
-     * @param element Hashtable to order
-     */
-    private void orderScores(Hashtable<String, String> element) {
-	//Vector<String> result = new Vector<String>();
-
-	//TODO
-    }
-
     public void update(GameContainer container, StateBasedGame game, int delta)
 	    throws SlickException {
-	loadFromDisk();
+	updateTimer = updateTimer + delta;
+	if (updateTimer > 5000) {
+	    try {
+		ScoreTableLoader stl = new ScoreTableLoader(
+			"scoretable.properties");
+		scores = new ArrayList<ScoreRecord>(stl.loadScoreTable());
+
+	    } catch (FileNotFoundException e) {
+		Log.error(e);
+	    } catch (IOException e) {
+		Log.error(e);
+	    }
+	}
     }
 
     public void keyReleased(int key, char c) {
@@ -106,14 +98,6 @@ public class ScoreTable extends BasicGameState {
 	    game.enterState(Menu.ID, new FadeOutTransition(Color.black),
 		    new FadeInTransition(Color.black));
 	}
-    }
-
-    private String filler(String string, int limit) {
-	String a = new String();
-	for (int i = 0; i < (Math.abs(limit - string.length())); i++) {
-	    a = a + " ";
-	}
-	return a;
     }
 
 }

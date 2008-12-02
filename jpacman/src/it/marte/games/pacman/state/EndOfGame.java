@@ -1,11 +1,12 @@
 package it.marte.games.pacman.state;
 
+import it.marte.games.pacman.base.Score;
+import it.marte.games.pacman.util.ScoreRecord;
+import it.marte.games.pacman.util.ScoreTableLoader;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Hashtable;
-
-import it.marte.games.pacman.base.Score;
-import it.marte.games.pacman.util.ScoreTableLoader;
+import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -94,6 +95,12 @@ public class EndOfGame extends BasicGameState {
 	    if (key == Input.KEY_I) {
 		playerName = playerName + "I";
 	    }
+	    if (key == Input.KEY_J) {
+		playerName = playerName + "J";
+	    }
+	    if (key == Input.KEY_K) {
+		playerName = playerName + "K";
+	    }
 	    if (key == Input.KEY_L) {
 		playerName = playerName + "L";
 	    }
@@ -127,7 +134,16 @@ public class EndOfGame extends BasicGameState {
 	    if (key == Input.KEY_V) {
 		playerName = playerName + "V";
 	    }
-	    if (key == Input.KEY_V) {
+	    if (key == Input.KEY_W) {
+		playerName = playerName + "W";
+	    }
+	    if (key == Input.KEY_X) {
+		playerName = playerName + "X";
+	    }
+	    if (key == Input.KEY_Y) {
+		playerName = playerName + "Y";
+	    }
+	    if (key == Input.KEY_Z) {
 		playerName = playerName + "Z";
 	    }
 	    if (key == Input.KEY_SPACE) {
@@ -142,8 +158,9 @@ public class EndOfGame extends BasicGameState {
     private void writeScore() {
 	try {
 	    ScoreTableLoader stl = new ScoreTableLoader("scoretable.properties");
-	    Hashtable<String,String> scores =  stl.loadScoreTable();
-	    scores.put(playerName, ""+Score.getFinalScore());
+	    ArrayList<ScoreRecord> scores =  stl.loadScoreTable();
+	    ScoreRecord sr = new ScoreRecord(playerName,Score.getFinalScore());
+	    scores.add(sr);
 	    stl.saveScoreTable(scores);
 	    stl = null;
 	} catch (FileNotFoundException e) {
