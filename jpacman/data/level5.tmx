@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="25" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" source="pacman.tsx"/>
+ <!-- Layer data is compressed (GZip) binary data, encoded in Base64 -->
+ <layer name="terrain" width="25" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAAN1UywqAMAybx/l++/9/6g4LSLDadYLoIRRKuyTrOu+c8z9CFzAFbDFagf7lhKMNKA7RorOgc+44rEjh8BRxl8Ag1OX40PrTcJSkq6Heinw0VF8qOK50pfi74oBOYI35mvJLzPfCnCw+LP4kDul+eQ6a+eXuh8Zf7n6sQt2T+/GkD8xhpLPwznjf3/6voGt2aX85A/3jCcfXsQNsZnJ50AcAAA==
+  </data>
+ </layer>
+ <layer name="entity" width="25" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAAGNgGAXkAMVBZs4oGAWjYPgCWTrYIU2h/tEyceABAD+ndXvQBwAA
+  </data>
+ </layer>
+ <layer name="bonus" width="25" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAAGNgGAWDFUgSoUaKQnOIsYMYQIkdkmiYVnYQA0gJD3S1uPxBipm44pNa4tgAultxxQUlYUOuOkrSAzFpihI7SAEjwY5RMPAAAOlretLQBwAA
+  </data>
+ </layer>
+</map>
