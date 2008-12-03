@@ -7,6 +7,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="jpacman/lib/native"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/slick.jar" sourcepath="D:/progetti/slick_all/src.zip"/>
+	<classpathentry kind="lib" path="lib/slick.jar" sourcepath="D:/progetti/slick_all"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
