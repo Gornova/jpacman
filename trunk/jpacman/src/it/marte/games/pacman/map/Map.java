@@ -453,7 +453,11 @@ public class Map implements Entity, TileBasedMap {
 	if (blocked == null) {
 	    blocked = getCollisionMatrix(map, "blocked", "false");
 	}
-	if (blocked[x][y]) {
+	try {
+	    if (blocked[x][y]) {
+		return true;
+	    }
+	} catch (ArrayIndexOutOfBoundsException e) {
 	    return true;
 	}
 	return false;
@@ -509,31 +513,52 @@ public class Map implements Entity, TileBasedMap {
      * @return Return a random corner from map
      */
     public Vector2f getRandomCorner() {
-	// TODO: load corner position from map
-	// 3,4 - 21,4 - 3,15 - 21,15
-	Vector2f corner = new Vector2f(21, 4);
+
+	Vector2f corner = new Vector2f(0,0);
+	
+	Vector2f cornerUpLeft = new Vector2f(1000, 1000);
+	Vector2f cornerUpRight = new Vector2f(0, 0);
+	Vector2f cornerDownLeft = new Vector2f(0, 1000);
+	Vector2f cornerDownRight = new Vector2f(0, 0);
+
+	boolean first = true;
+	for (int x = 0; x < map.getWidth(); x++) {
+	    for (int y = 0; y < map.getHeight(); y++) {
+		boolean block = blocked[x][y];
+		if (!block) {
+		    if (first) {
+			first = false;
+			cornerUpLeft.set(x, y);
+		    }
+		    if (x >= cornerUpRight.x && y > cornerUpRight.y) {
+			cornerUpRight.set(x, y);
+		    }
+		    if (x >= cornerDownLeft.x && y <= cornerDownLeft.y) {
+			cornerDownLeft.set(x, y);
+		    }
+		    if (x >= cornerDownRight.x && y >= cornerDownRight.y) {
+			cornerDownRight.set(x, y);
+		    }
+		}
+	    }
+	}
 	Random rnd = new Random();
 	int value = rnd.nextInt(3);
 	switch (value) {
 	case 0:
-	    corner.x = 3;
-	    corner.y = 4;
+	    corner.set(cornerUpLeft);
 	    break;
 	case 1:
-	    corner.x = 21;
-	    corner.y = 4;
+	    corner.set(cornerUpRight);
 	    break;
 	case 2:
-	    corner.x = 3;
-	    corner.y = 15;
+	    corner.set(cornerDownLeft);
 	    break;
 	case 3:
-	    corner.x = 21;
-	    corner.y = 15;
+	    corner.set(cornerDownRight);
 	    break;
 	default:
-	    corner.x = 3;
-	    corner.y = 4;
+	    corner.set(cornerUpLeft);
 	    break;
 	}
 
