@@ -354,7 +354,6 @@ public class Ghost extends Body implements it.marte.games.pacman.base.Actor {
 		brain.update(delta);
 		doMovement(brain.getCurrentStep(), delta);
 	    } catch (Exception e) {
-		Log.debug("entering wait state");
 		manager.enter(State.WAIT);
 	    }
 	}
