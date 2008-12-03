@@ -15,7 +15,7 @@ import org.newdawn.slick.util.pathfinding.Path.Step;
 /**
  * Running Ghost
  * 
- * Escape from player, go to corners!
+ * Escape from player, go to a random corner
  * 
  * @author AM
  * @project PacMan
@@ -123,11 +123,13 @@ public class RunningGhostBrain implements Brain {
      */
     private void updatePathToPlayer() {
 	try {
+	    corner = map.getRandomCorner();
 	    path = map.getUpdatedPath((int) current.getX() / map.getTileSize(),
 		    (int) current.getY() / map.getTileSize(), (int) corner
 			    .getX(), (int) corner.getY());
 	} catch (NullPointerException e) {
-	    Log.error(e);
+	    // pathfinding problem
+	    //Log.error(e);
 	    path = null;
 	    cannotFindPath = true;
 	}
