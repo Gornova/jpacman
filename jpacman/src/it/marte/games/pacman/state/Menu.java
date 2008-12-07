@@ -52,14 +52,17 @@ public class Menu extends BasicGameState {
 	    logo = new Image("data/logo.gif");
 	} catch (SlickException e1) {
 	    Log.error("font non found " + e1.getMessage());
-	    e1.printStackTrace();
 	}
     }
 
     public void render(GameContainer container, StateBasedGame game, Graphics g)
 	    throws SlickException {
+	
+	g.drawString("Arrow - movement, ENTER - select options, F2 toggle fullscreen", 20, 580);	
+	g.drawString("http://code.google.com/p/jpacman/", 520, 580);
+	
+	
 	g.setFont(font);
-	// g.drawString("PacMan", 340, 50);
 	g.drawImage(logo, 320, 50);
 
 	for (int i = 0; i < options.length; i++) {
@@ -69,6 +72,7 @@ public class Menu extends BasicGameState {
 		g.drawRect(200, 190 + (i * 50), 400, 50);
 	    }
 	}
+
     }
 
     public void update(GameContainer container, StateBasedGame game, int delta)
@@ -98,16 +102,23 @@ public class Menu extends BasicGameState {
 		game.enterState(Game.ID, fot, fit);
 	    }
 	    if (selected == 1) {
-//		try {
-//		    game.getState(Game.ID).init(container, game);
-//		} catch (SlickException e) {
-//		    Log.error(e);
-//		}
 		game.enterState(ScoreTable.ID, fot, fit);
 	    }
 	    if (selected == 2) {
 		game.getContainer().exit();
 	    }
+	}
+	if (key == Input.KEY_F2) {
+	    try {
+		if (!container.isFullscreen()) {
+		    container.setFullscreen(true);
+		} else {
+		    container.setFullscreen(false);
+		}
+	    } catch (SlickException e) {
+		Log.error(e); 
+	    }
+
 	}
     }
 

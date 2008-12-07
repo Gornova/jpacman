@@ -37,6 +37,8 @@ public class Pause extends BasicGameState {
 
     private FadeInTransition fit;
 
+    private GameContainer container;
+
     @Override
     public int getID() {
 	return ID;
@@ -45,6 +47,7 @@ public class Pause extends BasicGameState {
     public void init(GameContainer container, StateBasedGame game)
 	    throws SlickException {
 	this.game = game;
+	this.container = container;
 	fot = new FadeOutTransition(Color.black);
 	fit = new FadeInTransition(Color.black);
 	try {
@@ -99,6 +102,18 @@ public class Pause extends BasicGameState {
 	    if (selected == 1) {
 		game.getContainer().exit();
 	    }
+	}
+	if (key == Input.KEY_F2) {
+	    try {
+		if (!container.isFullscreen()) {
+		    container.setFullscreen(true);
+		} else {
+		    container.setFullscreen(false);
+		}
+	    } catch (SlickException e) {
+		//TODO: what? 
+	    }
+
 	}
     }
 
