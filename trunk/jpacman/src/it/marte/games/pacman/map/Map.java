@@ -74,6 +74,11 @@ public class Map implements Entity, TileBasedMap {
 
     private Hashtable<String, Vector2f> bluePoint;
 
+    private Vector2f cornerUpLeft = new Vector2f(1000, 1000);
+    private Vector2f cornerUpRight = new Vector2f(0, 0);
+    private Vector2f cornerDownLeft = new Vector2f(0, 1000);
+    private Vector2f cornerDownRight = new Vector2f(0, 0);
+
     /**
      * Load map from specified mapPath and blocking entities used to do
      * collision
@@ -92,7 +97,9 @@ public class Map implements Entity, TileBasedMap {
 
 	ghostEnt = loadGhostEntities(LAYER.entity, "ghost");
 	base = loadBaseEntity(Map.LAYER.entity, "base");
-
+	
+	// init loading of corners from map
+	initCorners();
     }
 
     public void render(BasicGameState game, Graphics g) {
@@ -510,17 +517,9 @@ public class Map implements Entity, TileBasedMap {
     }
 
     /**
-     * @return Return a random corner from map
+     * Load corners of map
      */
-    public Vector2f getRandomCorner() {
-
-	Vector2f corner = new Vector2f(0,0);
-	
-	Vector2f cornerUpLeft = new Vector2f(1000, 1000);
-	Vector2f cornerUpRight = new Vector2f(0, 0);
-	Vector2f cornerDownLeft = new Vector2f(0, 1000);
-	Vector2f cornerDownRight = new Vector2f(0, 0);
-
+    private void initCorners(){
 	boolean first = true;
 	for (int x = 0; x < map.getWidth(); x++) {
 	    for (int y = 0; y < map.getHeight(); y++) {
@@ -542,6 +541,15 @@ public class Map implements Entity, TileBasedMap {
 		}
 	    }
 	}
+    }
+    
+    /**
+     * @return Return a random corner from map
+     */
+    public Vector2f getRandomCorner() {
+
+	Vector2f corner = new Vector2f(0, 0);
+
 	Random rnd = new Random();
 	int value = rnd.nextInt(3);
 	switch (value) {

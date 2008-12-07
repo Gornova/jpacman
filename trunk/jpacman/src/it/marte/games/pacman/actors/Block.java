@@ -19,7 +19,7 @@ import org.newdawn.slick.state.BasicGameState;
 public class Block extends Body {
 
     public Block(Shape s) {
-	this.shape = s;
+	shape = s;
     }
 
     public void addToLevel(Level l) {
@@ -31,7 +31,6 @@ public class Block extends Body {
     }
 
     public void onCollision(Entity obstacle) {
-	System.out.println("collisione con blocco semplice");
     }
 
     public void removeFromLevel(Level l) {
@@ -39,8 +38,7 @@ public class Block extends Body {
     }
 
     public void render(BasicGameState game, Graphics g) {
-	// g.drawImage(this.image, getX(), getY());
-	// g.draw(shape);
+	 //g.draw(shape);
     }
 
     public void update(GameContainer game, int delta) {

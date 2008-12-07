@@ -25,7 +25,9 @@ public class Game extends BasicGameState {
 
     private StateBasedGame game;
 
-    private Integer levelNumber=1;
+    private Integer levelNumber = 1;
+
+    private GameContainer container;
 
     public static final int ID = 1;
 
@@ -37,23 +39,25 @@ public class Game extends BasicGameState {
     public void init(GameContainer container, StateBasedGame game)
 	    throws SlickException {
 	this.game = game;
+	this.container = container;
 	// load levels definitions
 	try {
-	    LevelLoader ll = new LevelLoader("data/levels.properties");
+	    LevelLoader ll = new LevelLoader("data/maps/levels.properties");
 	    levelChain = ll.getLevelChain();
 	    // set current level
 	    // this is a little, horrid hack to solve a simple problem:
 	    // how to determine what state are calling GameState?
-	    if (levelNumber > levelChain.size()+900){
+	    if (levelNumber > levelChain.size() + 900) {
 		levelNumber = 1;
-	    }	    
+	    }
 	    if (levelNumber <= levelChain.size()) {
 		currentLevel = new SimpleLevel(levelChain.get(levelNumber
 			.toString()));
 	    } else {
 		// end of current level definition
 		levelNumber = levelNumber + 1000;
-		game.enterState(EndOfGame.ID, new FadeOutTransition(Color.black),
+		game.enterState(EndOfGame.ID,
+			new FadeOutTransition(Color.black),
 			new FadeInTransition(Color.black));
 		return;
 	    }
@@ -91,8 +95,18 @@ public class Game extends BasicGameState {
 	    game.enterState(Pause.ID, new FadeOutTransition(Color.black),
 		    new FadeInTransition(Color.black));
 	}
+	if (key == Input.KEY_F2) {
+	    try {
+		if (!container.isFullscreen()) {
+		    container.setFullscreen(true);
+		} else {
+		    container.setFullscreen(false);
+		}
+	    } catch (SlickException e) {
+		//TODO: what? 
+	    }
+
+	}
     }
-    
-    
 
 }

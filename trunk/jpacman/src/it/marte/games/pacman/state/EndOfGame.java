@@ -25,6 +25,7 @@ public class EndOfGame extends BasicGameState {
     private StateBasedGame game;
 
     private String playerName;
+    private GameContainer container;
 
     @Override
     public int getID() {
@@ -34,6 +35,7 @@ public class EndOfGame extends BasicGameState {
     public void init(GameContainer container, StateBasedGame game)
 	    throws SlickException {
 	this.game = game;
+	this.container = container;
 	playerName = new String();
     }
 
@@ -149,6 +151,19 @@ public class EndOfGame extends BasicGameState {
 	    if (key == Input.KEY_SPACE) {
 		playerName = playerName + " ";
 	    }
+	    
+	}
+	if (key == Input.KEY_F2) {
+	    try {
+		if (!container.isFullscreen()) {
+		    container.setFullscreen(true);
+		} else {
+		    container.setFullscreen(false);
+		}
+	    } catch (SlickException e) {
+		//TODO: what? 
+	    }
+
 	}
     }
 

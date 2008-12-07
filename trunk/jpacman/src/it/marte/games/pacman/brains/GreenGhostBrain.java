@@ -27,13 +27,13 @@ import org.newdawn.slick.util.pathfinding.Path.Step;
 public class GreenGhostBrain implements Brain {
 
     /** Internal thinking time * */
-    private static final int THINKINGTIME = 50;
+    private static final int THINKINGTIME = 30;
 
     /** Follow player time * */
     private static final int FOLLOWTIME = 20000;
 
     /** Radius of circle around pacman * */
-    private static final int CIRCLERADIUS = 4;
+    private static final int CIRCLERADIUS = 2;
 
     /** Internal thinking delta * */
     private int updateThinkingTime;

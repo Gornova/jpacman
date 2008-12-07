@@ -51,6 +51,7 @@ public class Player extends Body {
 
     public Player(Map parent, Shape shape) throws SlickException {
 	this.parent = parent;
+	shape.setLocation(shape.getX() + 5, shape.getY() + 5);
 	this.shape = shape;
 	init();
     }
@@ -159,6 +160,7 @@ public class Player extends Body {
 	public void onCollision(Entity obstacle) {
 	    if (obstacle.getRole().equals(Entity.Role.EATGEM)) {
 		manager.enter(State.POWER);
+		score = score - 50;
 	    }
 	    if (obstacle.getRole().equals(Entity.Role.GOLD)) {
 		score++;
@@ -171,7 +173,6 @@ public class Player extends Body {
 
 		    Ghost gh = (Ghost) obstacle;
 		    if (gh.getState().equals(Ghost.State.EATABLE)) {
-			// gh.setToRemove();
 		    } else {
 			manager.enter(State.BLINK);
 		    }
@@ -248,7 +249,6 @@ public class Player extends Body {
 	    if (timer > 10000) {
 		manager.enter(State.NORMAL);
 	    }
-
 	    Input input = game.getInput();
 
 	    boolean keyRight = input.isKeyDown(Input.KEY_RIGHT);
@@ -306,6 +306,9 @@ public class Player extends Body {
 	public void onCollision(Entity obstacle) {
 	    if (obstacle.getRole().equals(Entity.Role.GOLD)) {
 		score++;
+	    }
+	    if (obstacle.getRole().equals(Entity.Role.GHOST)) {
+		score = score + 10;
 	    }
 	}
 
@@ -396,7 +399,6 @@ public class Player extends Body {
 	 * Set pacman to do next update death animation, basing on wich is his
 	 * last direction
 	 */
-	// TODO: idea, if is possible to generalize this method?
 	private void doDeathAnim() {
 	    if (lastDir.equalsIgnoreCase("up")) {
 		sprite = deathUp;
@@ -575,7 +577,6 @@ public class Player extends Body {
 
     public void render(BasicGameState game, Graphics g) {
 	manager.render(g);
-	// g.draw(shape);
     }
 
     public void update(GameContainer game, int delta) {

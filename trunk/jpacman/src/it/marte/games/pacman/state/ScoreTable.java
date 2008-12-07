@@ -30,6 +30,8 @@ public class ScoreTable extends BasicGameState {
 
     private int updateTimer;
 
+    private GameContainer container;
+
     @Override
     public int getID() {
 	return ID;
@@ -38,6 +40,7 @@ public class ScoreTable extends BasicGameState {
     public void init(GameContainer container, StateBasedGame game)
 	    throws SlickException {
 	this.game = game;
+	this.container = container;
 	updateTimer = 0;
 	try {
 	    ScoreTableLoader stl = new ScoreTableLoader("scoretable.properties");
@@ -97,6 +100,18 @@ public class ScoreTable extends BasicGameState {
 	if (key == Input.KEY_ENTER) {
 	    game.enterState(Menu.ID, new FadeOutTransition(Color.black),
 		    new FadeInTransition(Color.black));
+	}
+	if (key == Input.KEY_F2) {
+	    try {
+		if (!container.isFullscreen()) {
+		    container.setFullscreen(true);
+		} else {
+		    container.setFullscreen(false);
+		}
+	    } catch (SlickException e) {
+		//TODO: what? 
+	    }
+
 	}
     }
 
