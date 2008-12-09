@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Created-By: Alberto Martinelli (http://code.google.com/p/jpacman/)
+Main-Class: it.marte.games.pacman.PacManGame
+Class-Path: lib/slick.jar lib/lwjgl.jar

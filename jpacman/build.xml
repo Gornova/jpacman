@@ -2,17 +2,17 @@
  
 <!--
  
-Shade build file.
+jpacman build file.
  
-ant setup Initialize Shade environment.
+ant setup Initialize jpacman environment.
 ant compile Run to compile the code.
-ant run Run to launch Shade
-ant webstart Deploy shade as a webstart.
+ant run Run to launch jpacman
+ant webstart Deploy jpacman as a webstart.
 ant clean Removes products of the build process, etc.
  
 Alex Schearer
 -->
-<project name="Shade" default="compile">
+<project name="jpacman" default="compile">
  
     <property name="src.dir" value="src" />
     <property name="res.dir" value="data" />
@@ -22,7 +22,7 @@ Alex Schearer
     <property name="script.dir" value="script" />
     <property name="webstart.dir" value="${target.dir}/webstart" />
  
-    <!-- Set up the Shade environment including preparing the natives. -->
+    <!-- Set up the jpacman environment including preparing the natives. -->
     <target name="setup" depends="check-setup" unless="setup.exists">
         <delete dir="${lib.dir}/native" />
         <mkdir dir="${lib.dir}/native" />
@@ -31,13 +31,13 @@ Alex Schearer
         <unzip src="${lib.dir}/natives-linux.jar" dest="${lib.dir}/native" />
     </target>
  
-    <!-- Compile and archive Shade. -->
+    <!-- Compile and archive jpacman. -->
     <target name="jar">
         <antcall target="compile" />
         <antcall target="archive" />
     </target>
  
-    <!-- Run Shade. -->
+    <!-- Run jpacman. -->
     <target name="run" depends="setup,compile">
         <java fork="true" classname="it.marte.games.pacman.PacManGame">
             <classpath>
@@ -55,7 +55,7 @@ Alex Schearer
         <delete includeEmptyDirs="true">
             <fileset dir="${obj.dir}" includes="**/*" defaultExcludes="no" />
         </delete>
-        <delete file="${target.dir}/shade.jar" />
+        <delete file="${target.dir}/jpacman.jar" />
         <delete>
             <fileset dir="${src.dir}" includes="**/*.orig" />
         </delete>
@@ -77,14 +77,14 @@ Alex Schearer
         </exec>
     </target>
  
-    <!-- Create a webstart directory in order to deploy Shade. -->
+    <!-- Create a webstart directory in order to deploy jpacman. -->
     <target name="webstart" depends="jar">
         <input message="Web server url:" addproperty="codebase" />
         <delete dir="${webstart.dir}" />
         <mkdir dir="${webstart.dir}" />
         <copy file="${script.dir}/htaccess" tofile="${webstart.dir}/.htaccess" />
-        <copy file="${target.dir}/shade.jar" tofile="${webstart.dir}/shade.jar" />
-        <copy file="${script.dir}/template.jnlp" tofile="${webstart.dir}/shade.jnlp">
+        <copy file="${target.dir}/jpacman.jar" tofile="${webstart.dir}/jpacman.jar" />
+        <copy file="${script.dir}/template.jnlp" tofile="${webstart.dir}/jpacman.jnlp">
             <filterchain>
                 <replacetokens>
                     <token key="codebase" value="${codebase}" />
@@ -128,9 +128,9 @@ Alex Schearer
         </genkey>
     </target>
  
-    <!-- Sign's webstart/shade.jar for deployment. -->
+    <!-- Sign's webstart/jpacman.jar for deployment. -->
     <target name="signjar" depends="keystore">
-        <signjar jar="${webstart.dir}/shade.jar"
+        <signjar jar="${webstart.dir}/jpacman.jar"
                  keystore="${target.dir}/${keystore.alias}.ks"
                  storepass="${keystore.pass}"
                  alias="${keystore.alias}" />
@@ -153,7 +153,7 @@ Alex Schearer
  
     <!-- Jar compiled code and place result into target.dir. -->
     <target name="archive">
-        <jar destfile="${target.dir}/shade.jar" manifest="${script.dir}/manifest.txt">
+        <jar destfile="${target.dir}/jpacman.jar" manifest="${script.dir}/manifest.txt">
             <fileset dir="${obj.dir}" />
         </jar>
     </target>
