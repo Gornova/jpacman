@@ -18,6 +18,8 @@ Alex Schearer
     <property name="res.dir" value="data" />
     <property name="lib.dir" value="lib" />
     <property name="obj.dir" value="bin" />
+	<property name="dist.dir" value="dist" />
+	<property name="data.dir" value="data" />
     <property name="target.dir" value="." />
     <property name="script.dir" value="script" />
     <property name="webstart.dir" value="${target.dir}/webstart" />
@@ -65,6 +67,7 @@ Alex Schearer
             </fileset>
         </delete>
         <delete dir="${webstart.dir}" />
+        <delete dir="${dist.dir}" />
     </target>
  
     <target name="format">
@@ -157,5 +160,30 @@ Alex Schearer
             <fileset dir="${obj.dir}" />
         </jar>
     </target>
+	
+	<!-- Build jpacman package for win32 -->
+	<target name="distribuite-Win32" depends="clean,jar" >
+		<delete dir="${dist.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+		<mkdir dir="${dist.dir}/win32"/>
+		<mkdir dir="${dist.dir}/win32/lib"/>
+	    <copy file="jpacman.jar" tofile="${dist.dir}/win32/jpacman.jar" />
+		<copy file="jpacman.bat" tofile="${dist.dir}/win32/jpacman.bat" />		
+		<copy file="README.txt" tofile="${dist.dir}/win32/README.txt" />
+		<copy file="LICENSE" tofile="${dist.dir}/win32/LICENSE" />
+		<copy file="scoretable.properties" tofile="${dist.dir}/win32/scoretable.properties" />
+		<copy todir="${dist.dir}/win32/lib">
+			<fileset dir="${lib.dir}"/>
+		</copy>
+		<delete file="${dist.dir}/win32/lib/natives-linux.jar"/>
+		<delete file="${dist.dir}/win32/lib/natives-mac.jar"/>
+		<copy todir="${dist.dir}/win32/data">
+			<fileset dir="${data.dir}"/>	
+		</copy>
+		<input message="Insert version of jpacman:" addproperty="version.number"/>
+		<zip destfile="${dist.dir}/jpacman-win32-${version.number}.zip" basedir="${dist.dir}/win32/" />
+		<delete dir="${dist.dir}/win32"/>
+	</target>
+	
  
 </project>
