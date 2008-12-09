@@ -1,30 +1,22 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>C:\Documents and Settings\AM0774\Desktop\timewiki\timehero\jpacman\jpacman.jar</jar>
-  <outfile>C:\Documents and Settings\AM0774\Desktop\timewiki\timehero\jpacman\jpacman.exe</outfile>
+  <jar>..\jpacman.jar</jar>
+  <outfile>..\jpacman.exe</outfile>
   <errTitle></errTitle>
-  <cmdLine></cmdLine>
-  <chdir></chdir>
+  <cmdLine>-Djava.library.path=lib/native;lib/slick.jar;lib/lwjgl.jar</cmdLine>
+  <chdir>.</chdir>
   <priority>normal</priority>
   <downloadUrl>http://java.com/download</downloadUrl>
   <supportUrl></supportUrl>
-  <customProcName>false</customProcName>
+  <customProcName>true</customProcName>
   <stayAlive>false</stayAlive>
-  <manifest>C:\Documents and Settings\AM0774\Desktop\timewiki\timehero\jpacman\script\manifest.txt</manifest>
+  <manifest>..\script\manifest.txt</manifest>
   <icon></icon>
   <jre>
     <path></path>
     <minVersion>1.5.0</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
-    <opt>-Djava.library.path=lib/native</opt>
   </jre>
-  <messages>
-    <startupErr>An error occurred while starting the application.</startupErr>
-    <bundledJreErr>This application was configured to use a bundled Java Runtime Environment but the runtime is missing or corrupted.</bundledJreErr>
-    <jreVersionErr>This application requires a Java Runtime Environment</jreVersionErr>
-    <launcherErr>The registry refers to a nonexistent Java Runtime Environment installation or the runtime is corrupted.</launcherErr>
-    <instanceAlreadyExistsMsg>An application instance is already running.</instanceAlreadyExistsMsg>
-  </messages>
 </launch4jConfig>
