@@ -16,6 +16,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import org.newdawn.slick.util.Log;
 
 public class Game extends BasicGameState {
 
@@ -103,9 +104,7 @@ public class Game extends BasicGameState {
 		    container.setFullscreen(false);
 		}
 	    } catch (SlickException e) {
-		//TODO: what? 
-	    }
-
+		Log.error(e);	    }
 	}
     }
 

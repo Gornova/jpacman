@@ -210,8 +210,6 @@ public class Map implements Entity, TileBasedMap {
 		    Rectangle rect = new Rectangle(xrec, yrec, blockSize,
 			    blockSize);
 		    Image gem = map.getTileImage(xAxis, yAxis, layer.ordinal());
-		    // TODO: can i generalize this method with gem, enemy,
-		    // player or so on?
 		    EatGem block = new EatGem(rect, gem);
 		    ent.add(block);
 		}
