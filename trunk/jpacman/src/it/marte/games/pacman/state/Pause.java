@@ -111,9 +111,7 @@ public class Pause extends BasicGameState {
 		    container.setFullscreen(false);
 		}
 	    } catch (SlickException e) {
-		//TODO: what? 
-	    }
-
+		Log.error(e);	    }
 	}
     }
 

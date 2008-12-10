@@ -109,9 +109,7 @@ public class ScoreTable extends BasicGameState {
 		    container.setFullscreen(false);
 		}
 	    } catch (SlickException e) {
-		//TODO: what? 
-	    }
-
+		Log.error(e);	    }
 	}
     }
 
