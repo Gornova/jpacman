@@ -1,1 +1,1 @@
-java -Djava.library.path=lib/native -jar jpacman.jar
+java -Djava.library.path=lib/native:lib/lwjgl.jar;lib/slick.jar -jar jpacman.jar
