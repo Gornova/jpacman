@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset name="Tiles4" firstgid="1" tilewidth="32" tileheight="32">
- <image source="tiles4.bmp" trans="000000"/>
+ <image source="tiles4.png" trans="000000"/>
  <tile id="8">
   <properties>
    <property name="blocked" value="true"/>
