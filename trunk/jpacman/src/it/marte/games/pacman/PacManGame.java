@@ -8,6 +8,9 @@ import it.marte.games.pacman.state.Menu;
 import it.marte.games.pacman.state.Pause;
 import it.marte.games.pacman.state.ScoreTable;
 
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -23,6 +26,11 @@ public class PacManGame extends StateBasedGame {
     public static void main(String[] arguments) {
 	try {
 	    Log.setVerbose(true);
+	    try {
+		Log.out = new PrintStream("jpacman.log");
+	    } catch (FileNotFoundException e) {
+		Log.error(e);
+	    }
 
 	    AppGameContainer app = new AppGameContainer(new PacManGame());
 	    app.setDisplayMode(800, 600, false);
