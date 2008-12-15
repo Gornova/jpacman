@@ -17,8 +17,8 @@ import org.newdawn.slick.state.BasicGameState;
  */
 public class DummyBody extends Body {
 
-    public DummyBody(Shape shape) {
-	this.shape = shape;
+    public DummyBody(Role role, Shape shape) {
+	super(role, shape);
     }
 
     public void addToLevel(Level l) {
