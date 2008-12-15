@@ -57,11 +57,13 @@ public class Menu extends BasicGameState {
 
     public void render(GameContainer container, StateBasedGame game, Graphics g)
 	    throws SlickException {
-	
-	g.drawString("Arrow - movement, ENTER - select options, F2 toggle fullscreen", 20, 580);	
+
+	g
+		.drawString(
+			"Arrow - movement, ENTER - select options, F2 toggle fullscreen",
+			20, 580);
 	g.drawString("http://code.google.com/p/jpacman/", 520, 580);
-	
-	
+
 	g.setFont(font);
 	g.drawImage(logo, 320, 50);
 
@@ -116,7 +118,7 @@ public class Menu extends BasicGameState {
 		    container.setFullscreen(false);
 		}
 	    } catch (SlickException e) {
-		Log.error(e); 
+		Log.error(e);
 	    }
 
 	}

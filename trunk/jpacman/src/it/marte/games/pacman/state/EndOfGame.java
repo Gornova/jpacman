@@ -48,7 +48,8 @@ public class EndOfGame extends BasicGameState {
 	g.drawString(playerName, 100, 300);
 	g.setColor(Color.white);
 
-	g.drawString("Press enter to write your name into scoretable!", 100, 450);
+	g.drawString("Press enter to write your name into scoretable!", 100,
+		450);
     }
 
     public void update(GameContainer container, StateBasedGame game, int delta)
@@ -151,7 +152,7 @@ public class EndOfGame extends BasicGameState {
 	    if (key == Input.KEY_SPACE) {
 		playerName = playerName + " ";
 	    }
-	    
+
 	}
 	if (key == Input.KEY_F2) {
 	    try {
@@ -161,20 +162,20 @@ public class EndOfGame extends BasicGameState {
 		    container.setFullscreen(false);
 		}
 	    } catch (SlickException e) {
-		Log.error(e); 
+		Log.error(e);
 	    }
 
 	}
     }
 
-    /** 
+    /**
      * Save scoretable to disk
      */
     private void writeScore() {
 	try {
 	    ScoreTableLoader stl = new ScoreTableLoader("scoretable.properties");
-	    ArrayList<ScoreRecord> scores =  stl.loadScoreTable();
-	    ScoreRecord sr = new ScoreRecord(playerName,Score.getFinalScore());
+	    ArrayList<ScoreRecord> scores = stl.loadScoreTable();
+	    ScoreRecord sr = new ScoreRecord(playerName, Score.getFinalScore());
 	    scores.add(sr);
 	    stl.saveScoreTable(scores);
 	    stl = null;
