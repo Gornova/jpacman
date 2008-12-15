@@ -72,13 +72,14 @@ public class ScoreTableLoader {
 	if (scores == null)
 	    return false;
 	boolean result = true;
-	
+
 	Hashtable<String, String> towrite = new Hashtable<String, String>();
-	
+
 	for (ScoreRecord scoreRecord : scores) {
-	    towrite.put(scoreRecord.getName(), scoreRecord.getPoints().toString());
+	    towrite.put(scoreRecord.getName(), scoreRecord.getPoints()
+		    .toString());
 	}
-	
+
 	prop.putAll(towrite);
 	try {
 	    prop.store(new FileOutputStream(filePath), null);
