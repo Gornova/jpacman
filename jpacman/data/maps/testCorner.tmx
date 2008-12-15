@@ -5,17 +5,17 @@
  <!-- Layer data is compressed (GZip) binary data, encoded in Base64 -->
  <layer name="terrain" width="25" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAONkYGDgpAPmB2JhGmBRJDv4oDQjhRjd7XxobErNH7WDMrtG7RgcdsDwqB2D2w7k/ElLO4a6P3gYaFNHCaG5nZYYAGPhc6jQBwAA
+   H4sIAAAAAAAAAONkYGDgpANmhGJhKmNRLHZQitHdzjcI7eDEQdPaDnS99LAD3S5K7cAVXtSyA1+cDDY7cOVVYuyAYWrkD0rtQHc3Nj628oja/iCEB8oOats5nP1B7TpKiAF3OqQ2BgAVQo6N0AcAAA==
   </data>
  </layer>
  <layer name="entity" width="25" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAGNgGAWjYBRQA0gPtANGwSgYBUQDxYF2AA0AAKpYGonQBwAA
+   H4sIAAAAAAAAAGNgoA/ghGJa20FrMGrHqB24gDQd7KAEjNoxagc+oEYHO8gF9LKDHvbQEgAAT1zoadAHAAA=
   </data>
  </layer>
  <layer name="bonus" width="25" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAGNgGF5AEooH0g4pNJoWdlAD4LKDEncTawc2+8i1d6DCCp97yfHLYEi7A2EHtcIK3RxK0/FgTFfEyBNjByXm4bODmmUHLjtGAW4AAIXAVsnQBwAA
+   H4sIAAAAAAAAAGNgGF5AEopH7Ri1Y9SOUTtG7aCvHVJ0sGMU4AYA8kigZdAHAAA=
   </data>
  </layer>
 </map>

@@ -136,6 +136,12 @@
    <property name="green" value="true"/>
   </properties>
  </tile>
+ <tile id="37">
+  <properties>
+   <property name="ghost" value="true"/>
+   <property name="gray" value="true"/>
+  </properties>
+ </tile>
  <tile id="40">
   <properties>
    <property name="a" value="true"/>
