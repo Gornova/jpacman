@@ -210,8 +210,8 @@ public class SimpleLevel implements Level {
 	    Entity ent = iterator.next();
 	    if (ent.getRole().equals(Role.GHOST)) {
 		Ghost gh = (Ghost) ent;
-		if (!gh.getState().equals(Ghost.State.DEATH)){
-			gh.setEatable();		    
+		if (!gh.getState().equals(Ghost.State.DEATH)) {
+		    gh.setEatable();
 		}
 	    }
 	}

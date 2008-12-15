@@ -38,7 +38,7 @@ public class Block extends Body {
     }
 
     public void render(BasicGameState game, Graphics g) {
-	 //g.draw(shape);
+	// g.draw(shape);
     }
 
     public void update(GameContainer game, int delta) {

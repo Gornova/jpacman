@@ -1,10 +1,10 @@
 package it.marte.games.pacman.actors;
 
 import it.marte.games.pacman.base.Body;
-import it.marte.games.pacman.base.Collider;
 import it.marte.games.pacman.base.Entity;
 import it.marte.games.pacman.base.Level;
 import it.marte.games.pacman.map.Map;
+import it.marte.games.pacman.util.Collider;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -24,9 +24,9 @@ public class EatGem extends Body {
 
     private boolean toRemove = false;
 
-    public EatGem(Shape shape, Image image) {
+    public EatGem(Role role, Shape shape, Image image) {
+	super(role, shape);
 	this.image = image;
-	this.shape = shape;
     }
 
     public void addToLevel(Level l) {

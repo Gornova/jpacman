@@ -129,7 +129,7 @@ public class RunningGhostBrain implements Brain {
 			    .getX(), (int) corner.getY());
 	} catch (NullPointerException e) {
 	    // pathfinding problem
-	    //Log.error(e);
+	    // Log.error(e);
 	    path = null;
 	    cannotFindPath = true;
 	}
