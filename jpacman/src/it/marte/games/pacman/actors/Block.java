@@ -18,8 +18,8 @@ import org.newdawn.slick.state.BasicGameState;
  */
 public class Block extends Body {
 
-    public Block(Shape s) {
-	shape = s;
+    public Block(Role role, Shape shape) {
+	super(role, shape);
     }
 
     public void addToLevel(Level l) {
