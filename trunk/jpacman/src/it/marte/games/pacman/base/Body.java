@@ -10,7 +10,20 @@ import org.newdawn.slick.geom.Vector2f;
 public abstract class Body implements Entity {
 
     /** The underlying shape of this body, used to perform intersection tests. */
-    protected Shape shape;
+    public Shape shape;
+
+    protected Role role;
+
+    /**
+     * Create a new body with the given shape and bounding box. 
+     * 
+     * @param role - role of this Body
+     * @param shape - shape of Body
+     */
+    public Body(Role role, Shape shape) {
+	this.role = role;
+	this.shape = shape;
+    }
 
     public float getCenterX() {
 	return shape.getCenterX();
