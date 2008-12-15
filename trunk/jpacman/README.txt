@@ -27,7 +27,7 @@ Slick - http://slick.cokeandcode.com/
 Gimp - http://www.gimp.org/
 Eclipse - http://www.eclipse.org
 Shade - http://github.com/shade
-
+Launch4j - http://launch4j.sourceforge.net/
 
 5. A Special Thanks to
 
