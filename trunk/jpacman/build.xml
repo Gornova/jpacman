@@ -218,7 +218,7 @@ Alex Schearer
 		<delete dir="${dist.dir}/linux"/>
 	</target>
 	
-	<!-- Create win32 executable using launch4j --> 
+	<!-- Create win32 executable using launch4j (http://launch4j.sourceforge.net/) --> 
 	<target name="launch4j">
 		<taskdef name="launch4j"
 		    classname="net.sf.launch4j.ant.Launch4jTask"
