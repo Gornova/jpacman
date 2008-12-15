@@ -12,13 +12,16 @@ public abstract class Body implements Entity {
     /** The underlying shape of this body, used to perform intersection tests. */
     public Shape shape;
 
+    /** Role of this body **/
     protected Role role;
 
     /**
-     * Create a new body with the given shape and bounding box. 
+     * Create a new body with the given shape and bounding box.
      * 
-     * @param role - role of this Body
-     * @param shape - shape of Body
+     * @param role -
+     *                role of this Body
+     * @param shape -
+     *                shape of Body
      */
     public Body(Role role, Shape shape) {
 	this.role = role;
