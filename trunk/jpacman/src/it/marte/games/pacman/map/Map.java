@@ -13,6 +13,7 @@ import it.marte.games.pacman.base.Body;
 import it.marte.games.pacman.base.Entity;
 import it.marte.games.pacman.base.Level;
 import it.marte.games.pacman.brains.BlueGhostBrain;
+import it.marte.games.pacman.brains.GrayGhostBrain;
 import it.marte.games.pacman.brains.GreenGhostBrain;
 import it.marte.games.pacman.brains.OrangeGhostBrain;
 import it.marte.games.pacman.brains.PinkGhostBrain;
@@ -97,7 +98,7 @@ public class Map implements Entity, TileBasedMap {
 
 	ghostEnt = loadGhostEntities(LAYER.entity, "ghost");
 	base = loadBaseEntity(Map.LAYER.entity, "base");
-	
+
 	// init loading of corners from map
 	initCorners();
     }
@@ -113,7 +114,8 @@ public class Map implements Entity, TileBasedMap {
 	Player pl = null;
 	// adding player to level
 	try {
-	    pl = new Player(this, getPlayerStart(Map.LAYER.entity, "player"));
+	    pl = new Player(this, Role.PLAYER, getPlayerStart(Map.LAYER.entity,
+		    "player"));
 	} catch (SlickException e) {
 	    throw new SlickException("cannot find player position "
 		    + e.getMessage());
@@ -146,7 +148,7 @@ public class Map implements Entity, TileBasedMap {
 			    blockSize);
 		    // a block is a logical entity, without graphical
 		    // reprensetation
-		    Block block = new Block(rect);
+		    Block block = new Block(Role.BLOCK, rect);
 		    ent.add(block);
 		}
 	    }
@@ -178,7 +180,7 @@ public class Map implements Entity, TileBasedMap {
 		    Rectangle rect = new Rectangle(xrec, yrec, blockSize,
 			    blockSize);
 		    Image gem = map.getTileImage(xAxis, yAxis, layer.ordinal());
-		    Gem block = new Gem(rect, gem);
+		    Gem block = new Gem(Role.GOLD, rect, gem);
 		    ent.add(block);
 		}
 	    }
@@ -210,7 +212,7 @@ public class Map implements Entity, TileBasedMap {
 		    Rectangle rect = new Rectangle(xrec, yrec, blockSize,
 			    blockSize);
 		    Image gem = map.getTileImage(xAxis, yAxis, layer.ordinal());
-		    EatGem block = new EatGem(rect, gem);
+		    EatGem block = new EatGem(Role.EATGEM, rect, gem);
 		    ent.add(block);
 		}
 	    }
@@ -250,35 +252,45 @@ public class Map implements Entity, TileBasedMap {
 			    Vector2f pos = new Vector2f();
 			    pos.set(xAxis * 32, yAxis * 32);
 			    b = new RedGhostBrain(this, pos);
-			    ghost = new Ghost(this, rect, b, 0);
+			    ghost = new Ghost(this, Role.GHOST, rect, b, 0);
 			}
 			color = map.getTileProperty(tileID, "pink", "false");
 			if (color.equals("true")) {
 			    Vector2f pos = new Vector2f();
 			    pos.set(xAxis * 32, yAxis * 32);
 			    b = new PinkGhostBrain(this, pos);
-			    ghost = new Ghost(this, rect, b, 2);
+			    ghost = new Ghost(this, Role.GHOST, rect, b, 2);
 			}
 			color = map.getTileProperty(tileID, "blue", "false");
 			if (color.equals("true")) {
 			    Vector2f pos = new Vector2f();
 			    pos.set(xAxis * 32, yAxis * 32);
 			    b = new BlueGhostBrain(this, pos);
-			    ghost = new Ghost(this, rect, b, 3);
+			    ghost = new Ghost(this, Role.GHOST, rect, b, 3);
 			}
 			color = map.getTileProperty(tileID, "orange", "false");
 			if (color.equals("true")) {
 			    Vector2f pos = new Vector2f();
 			    pos.set(xAxis * 32, yAxis * 32);
 			    b = new OrangeGhostBrain(this, pos);
-			    ghost = new Ghost(this, rect, b, 1);
+			    ghost = new Ghost(this, Role.GHOST, rect, b, 1);
 			}
 			color = map.getTileProperty(tileID, "green", "false");
 			if (color.equals("true")) {
 			    Vector2f pos = new Vector2f();
 			    pos.set(xAxis * 32, yAxis * 32);
 			    b = new GreenGhostBrain(this, pos);
-			    ghost = new Ghost(this, rect, b, 6);
+			    ghost = new Ghost(this, Role.GHOST, rect, b, 6);
+			}
+			color = map.getTileProperty(tileID, "gray", "false");
+			if (color.equals("true")) {
+			    Vector2f pos = new Vector2f();
+			    pos.set(xAxis * 32, yAxis * 32);
+			    b = new GrayGhostBrain(this, pos);
+			    ghost = new Ghost(this, Role.GHOST, rect, b, 7);
+			    // TODO: hack!! baaad hack!
+			    ((GrayGhostBrain) ghost.getBrain())
+				    .setParent(ghost);
 			}
 
 		    } catch (SlickException e) {
@@ -517,7 +529,7 @@ public class Map implements Entity, TileBasedMap {
     /**
      * Load corners of map
      */
-    private void initCorners(){
+    private void initCorners() {
 	boolean first = true;
 	for (int x = 0; x < map.getWidth(); x++) {
 	    for (int y = 0; y < map.getHeight(); y++) {
@@ -540,7 +552,7 @@ public class Map implements Entity, TileBasedMap {
 	    }
 	}
     }
-    
+
     /**
      * @return Return a random corner from map
      */
