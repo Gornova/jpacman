@@ -1,12 +1,12 @@
 package it.marte.games.pacman.actors;
 
 import it.marte.games.pacman.base.Body;
-import it.marte.games.pacman.base.Collider;
 import it.marte.games.pacman.base.Entity;
 import it.marte.games.pacman.base.Level;
 import it.marte.games.pacman.brains.GoToBaseGhostBrain;
 import it.marte.games.pacman.brains.RunningGhostBrain;
 import it.marte.games.pacman.map.Map;
+import it.marte.games.pacman.util.Collider;
 import it.marte.games.pacman.util.SheetUtil;
 import it.marte.games.pacman.util.StateManager;
 
@@ -53,9 +53,9 @@ public class Ghost extends Body implements it.marte.games.pacman.base.Actor {
 	NORMAL, WAIT, EATABLE, DEATH;
     }
 
-    public Ghost(Map parent, Shape shape, Brain normalBrain, int rowAnim)
-	    throws SlickException {
-	this.shape = shape;
+    public Ghost(Map parent, Role role, Shape shape, Brain normalBrain,
+	    int rowAnim) throws SlickException {
+	super(role, shape);
 	this.parent = parent;
 	this.normalBrain = normalBrain;
 	this.rowAnim = rowAnim;
@@ -103,7 +103,7 @@ public class Ghost extends Body implements it.marte.games.pacman.base.Actor {
      */
     public void render(BasicGameState game, Graphics g) {
 	manager.render(g);
-	// brain.render(game,g);
+	//brain.render(game, g);
     }
 
     /**
@@ -621,6 +621,13 @@ public class Ghost extends Body implements it.marte.games.pacman.base.Actor {
 
     public void setToRemove() {
 	toRemove = true;
+    }
+
+    /**
+     * @return the brain
+     */
+    public Brain getBrain() {
+	return brain;
     }
 
 }

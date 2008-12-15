@@ -1,10 +1,10 @@
 package it.marte.games.pacman.actors;
 
 import it.marte.games.pacman.base.Body;
-import it.marte.games.pacman.base.Collider;
 import it.marte.games.pacman.base.Entity;
 import it.marte.games.pacman.base.Level;
 import it.marte.games.pacman.map.Map;
+import it.marte.games.pacman.util.Collider;
 import it.marte.games.pacman.util.SheetUtil;
 import it.marte.games.pacman.util.StateManager;
 
@@ -49,10 +49,10 @@ public class Player extends Body {
 
     private StateManager manager;
 
-    public Player(Map parent, Shape shape) throws SlickException {
+    public Player(Map parent, Role role, Shape shape) throws SlickException {
+	super(role, shape);
 	this.parent = parent;
 	shape.setLocation(shape.getX() + 5, shape.getY() + 5);
-	this.shape = shape;
 	init();
     }
 
@@ -593,7 +593,7 @@ public class Player extends Body {
     private boolean tryMove(float x, float y) {
 	// REMIND: 25 is value for collision detection!
 	Rectangle rect = new Rectangle(x, y, 25, 25);
-	DummyBody dummy = new DummyBody(rect);
+	DummyBody dummy = new DummyBody(Role.DUMMY, rect);
 
 	if (Collider.testAndReturn(dummy, parent.getBlockingEntities()) == null) {
 	    return true;
