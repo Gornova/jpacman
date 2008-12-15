@@ -104,7 +104,8 @@ public class Game extends BasicGameState {
 		    container.setFullscreen(false);
 		}
 	    } catch (SlickException e) {
-		Log.error(e);	    }
+		Log.error(e);
+	    }
 	}
     }
 
