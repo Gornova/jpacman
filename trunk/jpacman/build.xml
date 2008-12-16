@@ -193,17 +193,16 @@ Alex Schearer
 	<!-- Build jpacman package for linux -->
 	<target name="distribuite-Linux" depends="clean,jar" >
 		<delete dir="${dist.dir}"/>
+		<delete dir="${lib.dir}/native"/>
 		<mkdir dir="${dist.dir}"/>
 		<mkdir dir="${dist.dir}/linux"/>
 		<mkdir dir="${dist.dir}/linux/lib"/>
 	    <copy file="jpacman.jar" tofile="${dist.dir}/linux/jpacman.jar" />
-		<copy file="jpacman.bat" tofile="${dist.dir}/linux/jpacman.sh" />		
+		<copy file="jpacman.sh" tofile="${dist.dir}/linux/jpacman.sh" />		
 		<copy file="README.txt" tofile="${dist.dir}/linux/README.txt" />
 		<copy file="LICENSE" tofile="${dist.dir}/linux/LICENSE" />
 		<copy file="scoretable.properties" tofile="${dist.dir}/linux/scoretable.properties" />
-		<delete dir="${lib.dir}/native"/>
-		<mkdir dir="${lib.dir}/native"/>
-        <unzip src="${lib.dir}/natives-linux.jar" dest="${lib.dir}/native" />		
+        <unzip src="${lib.dir}/natives-linux.jar" dest="${dist.dir}/linux" />		
 		<copy todir="${dist.dir}/linux/lib">
 			<fileset dir="${lib.dir}"/>
 		</copy>
