@@ -217,6 +217,33 @@ Alex Schearer
 		<delete dir="${dist.dir}/linux"/>
 	</target>
 	
+	<!-- Build jpacman package for mac -->
+		<target name="distribuite-Mac" depends="clean,jar" >
+			<delete dir="${dist.dir}"/>
+			<mkdir dir="${dist.dir}"/>
+			<mkdir dir="${dist.dir}/mac"/>
+			<mkdir dir="${dist.dir}/mac/lib"/>
+		    <copy file="jpacman.jar" tofile="${dist.dir}/mac/jpacman.jar" />
+			<copy file="README.txt" tofile="${dist.dir}/mac/README.txt" />
+			<copy file="LICENSE" tofile="${dist.dir}/mac/LICENSE" />
+			<copy file="scoretable.properties" tofile="${dist.dir}/mac/scoretable.properties" />
+			<delete dir="${lib.dir}/native"/>
+			<mkdir dir="${lib.dir}/native"/>
+	        <unzip src="${lib.dir}/natives-mac.jar" dest="${lib.dir}/native" />		
+			<copy todir="${dist.dir}/mac/lib">
+				<fileset dir="${lib.dir}"/>
+			</copy>
+			<delete file="${dist.dir}/linux/lib/natives-win32.jar"/>
+			<delete file="${dist.dir}/linux/lib/natives-mac.jar"/>
+			<delete file="${dist.dir}/linux/lib/natives-linux.jar"/>
+			<copy todir="${dist.dir}/mac/data">
+				<fileset dir="${data.dir}"/>	
+			</copy>
+			<input message="Insert version of jpacman:" addproperty="version.number"/>
+			<zip destfile="${dist.dir}/jpacman-mac-${version.number}.zip" basedir="${dist.dir}/mac/" />
+			<delete dir="${dist.dir}/mac"/>
+		</target>	
+	
 	<!-- Create win32 executable using launch4j (http://launch4j.sourceforge.net/) --> 
 	<target name="launch4j">
 		<taskdef name="launch4j"
